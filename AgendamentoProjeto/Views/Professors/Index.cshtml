@@ -50,13 +50,19 @@
         @foreach (var item in Model)
         {
             <tr>
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.NomeProfessor)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProfessorId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ProfessorId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProfessorId">Delete</a>
+                    <div class="d-flex w-100">
+                        <div class="border border-dark p-2 w-100">Nome: @Html.DisplayFor(modelItem => item.NomeProfessor) <br />   E-Mail Acadêmico : Lorem Ipsum    </div>
+
+
+
+                        <a style="background-color:darkblue ; width:25% " class="btn  text-white ml-1  " asp-action="Delete" asp-route-id="@item.ProfessorId"><text style="font-size:20px;align-self:center">Excluir</text></a>
+
+
+
+                        <a style="background-color:dodgerblue ; width:25% " class="btn  text-white ml-1 " asp-action="Edit" asp-route-id="@item.ProfessorId"><text style="font-size:20px;align-self:center">Editar</text></a>
+                    </div>
                 </td>
             </tr>
         }
