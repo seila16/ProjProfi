@@ -25,28 +25,6 @@ namespace AgendamentoProjeto.Controllers
             return View(await contexto.ToListAsync());
         }
 
-        // GET: Agendamentos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agendamento = await _context.Agendamento
-                .Include(a => a.Disciplina)
-                .Include(a => a.Laboratorio)
-                .Include(a => a.Professor)
-                .Include(a => a.Usuario)
-                .FirstOrDefaultAsync(m => m.AgendamentoId == id);
-            if (agendamento == null)
-            {
-                return NotFound();
-            }
-
-            return View(agendamento);
-        }
-
         // GET: Agendamentos/Create
         public IActionResult Create()
         {
@@ -136,32 +114,10 @@ namespace AgendamentoProjeto.Controllers
             return View(agendamento);
         }
 
-        // GET: Agendamentos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agendamento = await _context.Agendamento
-                .Include(a => a.Disciplina)
-                .Include(a => a.Laboratorio)
-                .Include(a => a.Professor)
-                .Include(a => a.Usuario)
-                .FirstOrDefaultAsync(m => m.AgendamentoId == id);
-            if (agendamento == null)
-            {
-                return NotFound();
-            }
-
-            return View(agendamento);
-        }
-
-        // POST: Agendamentos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+    
+        
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             var agendamento = await _context.Agendamento.FindAsync(id);
             _context.Agendamento.Remove(agendamento);

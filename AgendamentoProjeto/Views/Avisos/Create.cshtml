@@ -10,15 +10,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Criar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="AvisosId" class="control-label"></label>
-                <select asp-for="AvisosId" class ="form-control" asp-items="ViewBag.AvisosId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="AgendamentoId" class="control-label"></label>
-                <input asp-for="AgendamentoId" class="form-control" />
+                <input type="hidden" asp-for="AvisosId" />
+                <label class="control-label">ID do Agendamento</label>
+                <input asp-for="AgendamentoId" readonly="readonly" value="@ViewBag.agendamentoId" class="form-control" />
                 <span asp-validation-for="AgendamentoId" class="text-danger"></span>
             </div>
             <div class="form-group">

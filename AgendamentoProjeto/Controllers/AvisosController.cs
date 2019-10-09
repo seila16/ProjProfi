@@ -45,9 +45,9 @@ namespace AgendamentoProjeto.Controllers
         }
 
         // GET: Avisos/Create
-        public IActionResult Create()
+        public IActionResult Create(int AgendamentoId)
         {
-            ViewData["AvisosId"] = new SelectList(_context.Agendamento, "AgendamentoId", "AgendamentoId");
+            ViewData["agendamentoId"] = AgendamentoId;
             return View();
         }
 
@@ -56,17 +56,21 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AvisosId,AgendamentoId,Mensagem")] Aviso aviso)
+        public async Task<IActionResult> Criar([Bind("AvisosId,AgendamentoId,Mensagem")] Aviso aviso)
         {
+            var ag = _context.Agendamento.Find(aviso.AgendamentoId);
+            var novoId = _context.Aviso.Count();
+            aviso.AvisosId = novoId;
             if (ModelState.IsValid)
             {
                 _context.Add(aviso);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Agendamentos");
             }
-            ViewData["AvisosId"] = new SelectList(_context.Agendamento, "AgendamentoId", "AgendamentoId", aviso.AvisosId);
+            ViewData["agendamentoId"] = aviso.AgendamentoId;
             return View(aviso);
         }
+
 
         // GET: Avisos/Edit/5
         public async Task<IActionResult> Edit(int? id)
