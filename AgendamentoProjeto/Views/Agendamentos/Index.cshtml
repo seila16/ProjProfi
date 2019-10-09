@@ -4,58 +4,63 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Agendamentos</h1>
+<h1 style="text-align:center;font-weight:bold;font-size:30px;" class="mt-3 text-primary">Agendamentos</h1>
+
 <br />
 <br />
 
-<p>
-    <a asp-action="Create" style="background-color:dodgerblue;" class="text-white btn">Adicionar</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Data de agendamento
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Laboratorio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Disciplina)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Professor)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataAgendamento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Laboratorio.NomeLaboratorio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Disciplina.NomeDisciplina)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario.NomeUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Professor.NomeProfessor)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.AgendamentoId">Editar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.AgendamentoId">Deletar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="d-flex">
+    <form asp-action="Index" method="post">
+        <div class="input-group">
+            <input class="form-control py-2" type="date" name="Procurar" placeholder="Pesquisar por Data..." id="example-search-input">
+            <span class="input-group-append">
+                <button class="btn btn-outline-info" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <div class="ml-2">
+        <a asp-action="Create" class="text-white btn btn-success"> <i class="fa fa-plus fa-1x"></i> </a>
+    </div>
+</div>
+
+<div class="row mt-5">
+    @foreach (var nomeC in Model)
+    {
+        <div class="col-sm-4 mt-3 ">
+            <div class="card bg-light">
+                <div class="card-body border rounded border-primary">
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Data: </p>
+                        <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.DataAgendamento.ToShortDateString()</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Laboratório: </p>
+                        <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.Laboratorio.NomeLaboratorio</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Professor: </p>
+                        <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.Professor.NomeProfessor</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Disciplina: </p>
+                        <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.Disciplina.NomeDisciplina</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Disciplina: </p>
+                        <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.Disciplina.NomeDisciplina</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Edit" asp-route-id="@nomeC.AgendamentoId" class="btn btn-sm btn-warning  font-weight-bold">Editar</a>
+                        <a class="btn btn-sm btn-danger text-white font-weight-bold" href="#" onclick="ExibirModal(@nomeC.AgendamentoId)">Excluir</a>
+                        <a asp-action="Edit" asp-route-id="@nomeC.AgendamentoId" class="btn btn-sm btn-success font-weight-bold">Anexar aviso</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

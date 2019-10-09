@@ -13479,11 +13479,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\J130075\\Desktop\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+      "projectUniqueName": "C:\\Users\\J130075\\Desktop\\TesteDoGit\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
       "projectName": "AgendamentoProjeto",
-      "projectPath": "C:\\Users\\J130075\\Desktop\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+      "projectPath": "C:\\Users\\J130075\\Desktop\\TesteDoGit\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
       "packagesPath": "C:\\Users\\J130075\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\J130075\\Desktop\\ProjProfi\\AgendamentoProjeto\\obj\\",
+      "outputPath": "C:\\Users\\J130075\\Desktop\\TesteDoGit\\ProjProfi\\AgendamentoProjeto\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
