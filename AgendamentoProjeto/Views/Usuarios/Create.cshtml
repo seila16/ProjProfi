@@ -1,0 +1,71 @@
+﻿@model AgendamentoProjeto.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Criação de usuario</h4>
+<hr />
+@if (ViewBag.EmailRepetido == true)
+{
+    <div class="alert alert-danger">
+        <strong>E-mail  já utilizado no sistema favor insira outro e-mail</strong>
+    </div>
+}
+
+@if (ViewBag.LoginRepetido == true)
+{
+    <div class="alert alert-danger">
+        <strong>Login  já utilizado no sistema favor insira outro Login</strong>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomeUsuario" class="control-label"></label>
+                <input asp-for="NomeUsuario" class="form-control" />
+                <span asp-validation-for="NomeUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Login" class="control-label"></label>
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Senha" class="control-label"></label>
+                <input asp-for="Senha" class="form-control" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Cargo</label>
+                <select asp-for="CargoId" class="form-control" asp-items="ViewBag.CargoId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Curso</label>
+                <select asp-for="CursoId" class="form-control" asp-items="ViewBag.CursoId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Status</label>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+            </div>
+            <div class="form-group d-flex">
+                <input type="submit" value="Criar" style="background-color:darkblue" class="btn text-white" />
+                <a asp-action="Index" style="background-color:dodgerblue;" class="btn ml-2 text-white">Voltar</a>
+            </div>
+          
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

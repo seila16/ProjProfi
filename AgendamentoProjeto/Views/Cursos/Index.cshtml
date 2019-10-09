@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AgendamentoProjeto.Models.Curso>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Cursos</h1>
+
+<br />
+<br />
+
+<ul class="navbar-nav  flex-row">
+
+
+    <li class="nav-item">
+        @*<div style="height:30px;width:400px;">
+
+                <form asp-controller="Cursos" asp-action="Index" method="post">
+
+                    <input class="form-control" name="Procurar" />   <button type="submit">   <img style="height:20px;width:20px" src="~/search.png" /> </button>
+
+                </form>
+            </div>*@
+
+
+        <div style="width:400px" class="input-group mb-3">
+            <form asp-controller="Cursos" asp-action="Index" method="post" class="d-flex w-75">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit" method="post"> <img style="height:10px;width:10px" src="~/search.png" /> </button>
+                </div>
+                <input type="text" class="form-control" name="Procurar" placeholder="Pesquisar por Nome..." aria-describedby="basic-addon1">
+            </form>
+        </div>
+    </li>
+
+
+
+
+    <li>
+        <div class="text-center">
+            <a asp-action="Create" style="background-color:dodgerblue;" class="text-white btn"> Adicionar </a>
+        </div>
+    </li>
+
+
+
+</ul>
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+
+                <td>
+                    <div class="d-flex w-100">
+                        <div class="border border-dark p-2 w-100">Curso:@Html.DisplayFor(modelItem => item.Nome)</div>
+                        <a style="background-color:darkblue" class="btn  text-white ml-1" asp-action="Delete" asp-route-id="@item.CursoId">Excluir</a>
+                        <a style="background-color:dodgerblue" class="btn ml-2 text-white" asp-action="Edit" asp-route-id="@item.CursoId">Editar</a>
+                    </div>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

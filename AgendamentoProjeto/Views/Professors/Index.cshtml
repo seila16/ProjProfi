@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AgendamentoProjeto.Models.Professor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Professores</h1>
+
+<br />
+<br />
+
+
+
+<ul class="navbar-nav  flex-row">
+
+
+    <li class="nav-item">
+        <div style="width:400px" class="input-group mb-3">
+            <form asp-controller="Professors" asp-action="Index" method="post" class="d-flex w-75">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit" method="post"> <img style="height:10px;width:10px" src="~/search.png" /> </button>
+                </div>
+                <input type="text" class="form-control" name="Procurar" placeholder="Pesquisar por Nome..." aria-describedby="basic-addon1">
+            </form>
+        </div>
+    </li>
+
+
+
+
+    <li>
+        <div class="text-center">
+            <a asp-action="Create" style="background-color:dodgerblue;" class="text-white btn"> Adicionar </a>
+        </div>
+    </li>
+
+
+
+</ul>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeProfessor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeProfessor)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProfessorId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProfessorId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProfessorId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

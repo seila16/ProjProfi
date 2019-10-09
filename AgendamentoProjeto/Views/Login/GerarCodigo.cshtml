@@ -1,0 +1,38 @@
+﻿@model AgendamentoProjeto.Models.Usuario
+@{
+    Layout = "_LayoutLogin";
+}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/login.css" />
+
+<body id="backColor">
+
+   
+    <div id="divLogin" class="rounded shadow-lg">
+        <h2 id="TitleSolic">Reset de senha</h2>
+
+        <form asp-action="ValidarCodigo">
+            <div class=" p-4">
+                <input asp-for="Login" name="Login" class="form-control" placeholder="Login" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="p-4">
+                <input type="password" asp-for="Senha" name="Senha" placeholder="Nova Senha" class="form-control" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+            <div class="p-4">
+                <input placeholder="Código" name="codigo" class="form-control" />
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <input type="submit" value="Enviar" class="btn btn-info text-center" />
+                </div>
+                <div class="col-md-6 text-center">
+                    <a href="@Url.Action("Logar")" class="btn btn-info text-center">Home</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,19 @@
+﻿@model AgendamentoProjeto.Models.Usuario
+@{
+    Layout = "_LayoutLogin";
+}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/login.css" />
+
+<body id="backColor">
+    <div class="alert alert-info">
+        <strong>Senha alterada com sucesso, favor volte ao login e execute seu login!</strong>
+    </div>
+
+    <div class="text-center">
+        <a href="@Url.Action("Logar")" class="btn btn-info text-center">Login</a>
+    </div>
+    
+</body>

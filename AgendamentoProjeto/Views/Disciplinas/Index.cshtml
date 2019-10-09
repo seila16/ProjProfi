@@ -1,0 +1,110 @@
+﻿@model IEnumerable<AgendamentoProjeto.Models.Disciplina>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Disciplinas</h1>
+
+<br />
+<br />
+
+
+
+<ul class="navbar-nav  flex-row">
+
+
+    <li class="nav-item">
+        <div style="width:400px" class="input-group mb-3">
+            <form asp-controller="Disciplinas" asp-action="Index" method="post" class="d-flex w-75">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit" method="post"> <img style="height:10px;width:10px" src="~/search.png" /> </button>
+                </div>
+                <input type="text" class="form-control" name="Procurar" placeholder="Pesquisar por Nome..." aria-describedby="basic-addon1">
+            </form>
+        </div>
+    </li>
+
+
+
+
+    <li>
+        <div class="text-center">
+            <a asp-action="Create" style="background-color:dodgerblue;" class="text-white btn"> Adicionar </a>
+        </div>
+    </li>
+
+
+
+</ul>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeDisciplina)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    <div class="d-flex w-100">
+                        <div class="border border-dark p-2 w-100">Disciplina: @Html.DisplayFor(modelItem => item.NomeDisciplina)</div>
+                        <a style="background-color:darkblue" class="btn  text-white ml-1" href="#" onclick="ExibirModal(@item.DisciplinaId)">Excluir</a>
+                        <a style="background-color:dodgerblue" class="btn ml-2 text-white" asp-action="Edit" asp-route-id="@item.DisciplinaId">Editar</a>
+                    </div>
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja prosseguir com a exclusão dessa disciplina?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary btnExcluir">Sim</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Não</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script>
+        function ExibirModal(id) {
+            $(".modal").modal();
+            $(".btnExcluir").on('click', function () {
+                $.ajax({
+                    url: "/Disciplinas/Delete",
+                    method: "POST",
+                    data: { id: id },
+                    success: function (data) {
+                        $(".modal").modal('hide');
+                        location.reload(true);
+                    }
+                });
+            });
+        }
+    </script>
+
+}

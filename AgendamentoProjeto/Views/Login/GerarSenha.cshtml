@@ -1,0 +1,54 @@
+﻿@model AgendamentoProjeto.Models.Usuario
+@{
+    ViewData["Title"] = "GerarSenha";
+    Layout = "_LayoutLogin";
+}
+
+
+
+<body id="backColor">
+    @if (TempData["msgSucesso"] != null)
+    {
+        <div class="alert alert-danger alert-dismissable mt-3">
+            <strong>@TempData["msgSucesso"]</strong>
+        </div>
+    }
+    <div id="divLogin" class="rounded shadow-lg container mt-5">
+        <form asp-action="EnviarSolic">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h2 id="TitleSolic" class="mt-2">Solicitar Usuário</h2>
+            <div class=" p-3">
+                <input asp-for="NomeUsuario" class="form-control" placeholder="Nome" />
+                <span asp-validation-for="NomeUsuario" class="text-danger"></span>
+            </div>
+            <div class="p-3">
+                <input asp-for="Login" class="form-control" placeholder="Login" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="p-3">
+                <input type="email" asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="p-3">
+                <input type="password" asp-for="Senha" class="form-control" placeholder="Senha" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+            <div class="p-3">
+                <select asp-for="CargoId" class="form-control" asp-items="ViewBag.CargoId"></select>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <a asp-action="Logar" class="btn btn-info text-center">Voltar</a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <input type="submit" value="Enviar" class="btn btn-info text-center" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

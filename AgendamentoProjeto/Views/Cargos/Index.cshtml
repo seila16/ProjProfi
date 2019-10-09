@@ -1,0 +1,88 @@
+﻿@model IEnumerable<AgendamentoProjeto.Models.Cargo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center;font-weight:bold;font-size:30px;"  class="mt-3 text-primary">Cargos</h1>
+
+<br />
+<br />
+
+<div class="d-flex">
+    <form asp-action="Index" method="post">
+        <div class="input-group">
+            <input class="form-control py-2" type="search" name="Procurar" placeholder="Pesquisar por Nome..." id="example-search-input">
+            <span class="input-group-append">
+                <button class="btn btn-outline-info" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <div class="ml-2">
+        <a asp-action="Create"  class="text-white btn btn-success"> <i class="fa fa-plus fa-1x"></i> </a>
+    </div>
+</div>
+
+<div class="row mt-5">
+    @foreach (var nomeC in Model)
+    {
+    <div class="col-sm-4 mt-3 ">
+        <div class="card bg-light">
+            <div class="card-body border rounded border-primary">
+                <h5 class="card-title text-primary">@Html.DisplayFor(modelItem => nomeC.NomeCargo)</h5>
+                <div class="d-flex">
+                    <a asp-action="Edit" asp-route-id="@nomeC.CargoId" class="btn btn-sm btn-warning  font-weight-bold">Editar</a>
+                    <a class="btn btn-sm btn-danger ml-3 text-white ml-1 font-weight-bold" href="#" onclick="ExibirModal(@nomeC.CargoId)">Excluir</a>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja prosseguir com a exclusão desse cargo?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary btnExcluir">Sim</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Não</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script>
+        function ExibirModal(id) {
+            $(".modal").modal();
+            $(".btnExcluir").on('click', function () {
+                $.ajax({
+                    url: "/Cargos/Delete",
+                    method: "POST",
+                    data: { id: id },
+                    success: function (data) {
+                        $(".modal").modal('hide');
+                        location.reload(true);
+                    }
+                });
+            });
+        }
+    </script>
+
+}

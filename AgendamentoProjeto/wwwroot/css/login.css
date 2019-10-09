@@ -1,0 +1,62 @@
+﻿#backColor {
+    background-color:#1475CB;
+}
+
+#divLogin {
+    background-color: white;
+    width: 500px;
+    height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inputStyle{
+    width:100px;
+}
+
+.inputSelect{
+    width:200px;
+}
+
+.labelStyle{
+    align-self:center;
+}
+
+.gerarSenhaStyle{
+    background-color:blue;
+    width:500px;
+    height:30px;
+}
+
+.flexCaixa{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+    margin-top:25px;
+}
+
+#EsqueciSenha {
+    color: rgba(0,0,0,0.5);
+    font-size: 15px;
+}
+
+#btnLogin {
+    font-size: 15px;
+    width: 80px;
+    height: 40px;
+}
+
+#TitleSolic {
+    font-size: 25px;
+    color:#6F6F67;
+    text-align: center
+}
+
+#btnSolic {
+    font-size: 15px;
+    width: 120px;
+    height: 40px;
+    display:flex;
+    align-self:center;
+}

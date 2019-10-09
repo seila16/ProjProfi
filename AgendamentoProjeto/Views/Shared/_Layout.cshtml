@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]AgendamentoProjeto</title>
+
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+
+    <link rel="stylesheet" href="~/font-awesome/css/brands.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/regular.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/solid.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/svg-with-js.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/v4-shims.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/cursos.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand font-italic" href="#">Agendamentos UCB</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+                <ul class="navbar-nav mr-auto ml-5">
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Professors" asp-action="Index">Professores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Avisos" asp-action="Index">Avisos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Cargos" asp-action="Index">Cargos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Disciplinas" asp-action="Index">Disciplinas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Laboratorios" asp-action="Index">Laboratórios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold" asp-area="" asp-controller="Login" asp-action="Logout">Sair</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container d-flex">
+            &copy; Projeto profissional 2019.
+            <p class="ml-5">Equipe:</p>
+            <ul class="d-flex ">
+                <li>Jonathan Oliveira</li>
+                <li class="ml-5">Rodrigo Lima</li>
+                <li class="ml-5">Thiago Moura</li>
+            </ul>
+        </div>
+    </footer>
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/font-awesome/js/all.min.js"></script>
+    <script src="~/font-awesome/js/brands.min.js"></script>
+    <script src="~/font-awesome/js/conflict-detection.min.js"></script>
+    <script src="~/font-awesome/js/fontawesome.min.js"></script>
+    <script src="~/font-awesome/js/regular.min.js"></script>
+    <script src="~/font-awesome/js/solid.min.js"></script>
+    <script src="~/font-awesome/js/v4-shims.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

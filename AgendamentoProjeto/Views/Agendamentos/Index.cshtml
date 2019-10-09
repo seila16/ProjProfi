@@ -1,0 +1,61 @@
+﻿@model IEnumerable<AgendamentoProjeto.Models.Agendamento>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Agendamentos</h1>
+<br />
+<br />
+
+<p>
+    <a asp-action="Create" style="background-color:dodgerblue;" class="text-white btn">Adicionar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Data de agendamento
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Laboratorio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disciplina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAgendamento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Laboratorio.NomeLaboratorio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disciplina.NomeDisciplina)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.NomeUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.NomeProfessor)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AgendamentoId">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AgendamentoId">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
