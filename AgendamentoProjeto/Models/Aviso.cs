@@ -12,8 +12,7 @@ namespace AgendamentoProjeto.Models
     {
         [Key]
         public int AvisosId { get; set; }
-        public int AgendamentoId { get; set; }
-        public Agendamento Agendamento { get; set; }
+        public ICollection<Agendamento> Agendamentos { get; set; }
         [Required(ErrorMessage = "Campo obrigatório")]
         [StringLength(150, ErrorMessage = "Limite de caracteres atingido")]
         public string Mensagem { get; set; }

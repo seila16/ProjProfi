@@ -22,11 +22,11 @@ namespace AgendamentoProjeto.Models
         public int UsuarioId { get; set; }
         [Display(Name = "Usuário solicitante")]
         public Usuario Usuario { get; set; }
-        public int? StatusId { get; set; }
-        [ForeignKey("StatusId")]
+        public int? StatusId { get; set; }      
         public Status Status { get; set; }
         public int ProfessorId { get; set; }
         public Professor Professor { get; set; }
-        public ICollection<Aviso> Avisos { get; set; }
+        public int? AvisosId { get; set; }
+        public Aviso Avisos { get; set; }
     }
 }
