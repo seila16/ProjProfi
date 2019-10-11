@@ -642,3 +642,4 @@ C:\Users\J130075\Desktop\haha\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2
 C:\Users\J130075\Desktop\haha\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.dll
 C:\Users\J130075\Desktop\haha\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.pdb
 C:\Users\J130075\Desktop\haha\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csproj.CopyComplete
+C:\Users\J130075\Desktop\haha\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csprojAssemblyReference.cache

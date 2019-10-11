@@ -26,7 +26,7 @@ namespace AgendamentoProjeto.Controllers
                 ViewBag.ErrorDatabase = error;
             }
             List<string> listaDeAvisos = new List<string>();
-            var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario);
+            var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a=>a.Status);
             var avisos = _context.Aviso.Select(x => x);
             ViewBag.Avisos = avisos;
             return View(await contexto.ToListAsync());
@@ -40,7 +40,7 @@ namespace AgendamentoProjeto.Controllers
                 var avisos = _context.Aviso.Select(x => x);
                 ViewBag.Avisos = avisos;
                 DateTime DataFinal = Convert.ToDateTime(Procurar);
-                var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario);
+                var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a=>a.Status);
                 return View(await  contexto.Where(x => x.DataAgendamento.ToShortDateString().Contains(DataFinal.ToShortDateString())).ToListAsync());
 
             }
@@ -57,7 +57,7 @@ namespace AgendamentoProjeto.Controllers
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio");
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor");
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "NomeUsuario");
-            var x = _context.Status.Where(s => s.NomeStatus != "Bloqueado").ToList();
+            var x = _context.Status.Where(s => s.NomeStatus != "Bloqueado").Select(s=>s.NomeStatus).ToList();
             ViewData["StatusId"] = new SelectList(x);
             return View();
         }
