@@ -182,8 +182,6 @@ C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2
 C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\Edit.g.cshtml.cs
 C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\Index.g.cshtml.cs
 C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Avisos\Create.g.cshtml.cs
-C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Avisos\Delete.g.cshtml.cs
-C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Avisos\Details.g.cshtml.cs
 C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Avisos\Edit.g.cshtml.cs
 C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Avisos\Index.g.cshtml.cs
 C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Cargos\Create.g.cshtml.cs
