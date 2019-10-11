@@ -201,29 +201,11 @@ namespace AgendamentoProjeto.Controllers
             return View(laboratorio);
         }
 
-        // GET: Laboratorios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var laboratorio = await _context.Laboratorio
-                .Include(l => l.Status)
-                .FirstOrDefaultAsync(m => m.LaboratorioId == id);
-            if (laboratorio == null)
-            {
-                return NotFound();
-            }
-
-            return View(laboratorio);
-        }
+        
 
         // POST: Laboratorios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             var laboratorio = await _context.Laboratorio.FindAsync(id);
             _context.Laboratorio.Remove(laboratorio);

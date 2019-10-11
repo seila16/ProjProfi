@@ -1,40 +1,27 @@
 ﻿@model IEnumerable<AgendamentoProjeto.Models.Usuario>
-
 @{
 
     ViewData["Title"] = "Index";
 }
-<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Usuários</h1>
+<h1 style="text-align:center;font-weight:bold;font-size:30px;" class="mt-3 text-primary">Usuários</h1>
+
 <br />
 <br />
-
-<ul class="navbar-nav  flex-row mt-4">
-
-
-    <li class="nav-item">
-
-        <div style="width:400px" class="input-group mb-3">
-            <form asp-controller="Users" asp-action="Index" method="post" class="d-flex w-75">
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="submit" method="post"> <img style="height:10px;width:10px" src="~/search.png" /> </button>
-                </div>
-                <input type="text" class="form-control" name="Procurar" placeholder="Pesquisar por Nome..." aria-describedby="basic-addon1">
-            </form>
+<div class="d-flex">
+    <form asp-action="Index" method="post">
+        <div class="input-group">
+            <input class="form-control py-2" type="search" name="Procurar" placeholder="Pesquisar por Nome..." id="example-search-input">
+            <span class="input-group-append">
+                <button class="btn btn-outline-info" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
         </div>
-    </li>
-
-
-
-
-    <li>
-        <div class="text-center">
-            <a asp-action="Create" style="font-size:15px;background-color:dodgerblue" class="btn text-white"> Adicionar </a>
-        </div>
-    </li>
-
-
-
-</ul>
+    </form>
+    <div class="ml-2">
+        <a asp-action="Create" class="text-white btn btn-success"> <i class="fa fa-plus fa-1x"></i> </a>
+    </div>
+</div>
 
 
 
@@ -44,145 +31,181 @@
         <p>Usuário está vinculado a um agendamento, por tanto não é possível excluir o usuário.</p>
     </div>
 }
-
 @if (ViewBag.Contagem != 0)
 {
-    <h6 class="mt-2">Usuários pendentens</h6>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.NomeUsuario)
-                </th>
+    <h6 class="mt-2">Usuários pendentes</h6>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    Status
-                </th>
-            </tr>
-        </thead>
+    @*<div class="col-md-5 border border-dark shadow ml-4 mr-4 mt-3">
 
-        <tbody>
-            @foreach (var usu in ViewBag.UsuariosPendentes)
-            {
-                
-                    <tr>
-                        <td>
-                            @usu.NomeUsuario
-                        </td>
 
-                        <td>
-                            @usu.Email
-                        </td>
-                        <td>
-                            Pendente
-                        </td>
-                        <td>
-                            <div class="d-flex w-100">
-                                <a href="@Url.Action("TrocarStatus", "Usuarios", new { usu.UsuarioId })" style="background-color:darkblue" class="btn  text-white">Aprovar</a>
-                                <a href="@Url.Action("Reprovar", "Usuarios", new { usu.Login })" style="background-color:dodgerblue;margin-left:2px;" class="btn  text-white">Reprovar</a>
-                            </div>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    }
-            </tbody>
-    </table>
-}
-<h6 class="mt-4">Usuário Ativos</h6>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
+        <div class="d-flex">
+
+            <label class="font-weight-bold">
                 @Html.DisplayNameFor(model => model.NomeUsuario)
-            </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
+            </label>
+        </div>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Curso)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+        <div class="d-flex">
+            <label class="font-weight-bold">   @Html.DisplayNameFor(model => model.Email)  </label>
+
+        </div>*@
+
+       
+
+        <div class="container">
+            <div class="row" style="align-items:center;">
+                @foreach (var usu in ViewBag.UsuariosPendentes)
+                {
+                    <div class="col-md-5 border border-primary shadow ml-4 mr-4 mt-3" >
+                        <div class="d-flex">
+
+                            <label class="fonteSquare font-weight-bold">@Html.DisplayNameFor(model => model.NomeUsuario): </label>
+
+                            <label class="fonteSquares text-primary ml-2 font-weight-bold">@usu.NomeUsuario </label>
+
+                        </div>
+
+                        <div class="d-flex">
+
+                            <label class="fonteSquares  font-weight-bold">@Html.DisplayNameFor(model => model.Email): </label>
+                            <label class="fonteSquares text-primary ml-2 font-weight-bold">@usu.Email </label>
+
+                        </div>
+
+
+                        <div class="d-flex w-100  mb-2 mt-2">
+                            <a href="@Url.Action("TrocarStatus", "Usuarios", new { usu.UsuarioId })" class="btn btn-success btn-sm  font-weight-bold" >Aprovar</a>
+
+                            <a href="@Url.Action("Reprovar", "Usuarios", new { usu.Login })" style="margin-left:2px;" class="btn btn-sm btn-danger ml-3 font-weight-bold text-white">Reprovar</a>
+                        </div>
+
+                    </div>
+
+
+
+                }
+
+        </div>
+
+
+    </div>
+
+       
+}
+    @*<table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NomeUsuario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cargo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Curso)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>*@
+
+
+
+<h6 style="padding-top:30px">Usuários Ativos</h6>
+    <div class="container">
+    <div class="row" style="align-items:center;">
         @foreach (var item in Model)
         {
-            @if (item.StatusId == 1)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NomeUsuario)
-                    </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cargo.NomeCargo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Curso.Nome)
-                    </td>
-                    <td>
-                        <div class="d-flex w-100">
-                            <a href="#" onclick="ExibirModal(@item.UsuarioId)" style="background-color:darkblue" class="btn  text-white">Excluir</a>
-                            <a asp-action="Edit" asp-route-id="@item.UsuarioId" style="background-color:dodgerblue;margin-left:2px;" class="btn  text-white">Editar</a>
-                        </div>
-                    </td>
-                </tr>
-            }
+            <div class="col-md-5 border border-primary shadow ml-4 mr-4 mt-3">
+                
+                <div class="d-flex">
+                    <label class="fonteSquares font-weight-bold">Usuário: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.NomeUsuario)</label>
+                </div>
+
+                <div class="d-flex">
+                    <label class="fonteSquares font-weight-bold">E-mail: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.Email)</label>
+                </div>
+
+                <div class="d-flex">
+                    <label class="fonteSquares font-weight-bold ">Cargo: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.Cargo.NomeCargo)</label>
+                </div>
+
+                <div class="d-flex">
+                    <label class="fonteSquares font-weight-bold">Curso: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.Curso.Nome)</label>
+                </div>
+                
+                <div class="d-flex  mb-2 mt-2">
+                    
+                    <a style="width:100px;" class="btn btn-sm btn-warning  font-weight-bold" asp-action="Edit" asp-route-id="@item.UsuarioId">Editar</a>
+                 <a style=" width:100px;" class="btn btn-sm btn-danger ml-3 text-white ml-1 font-weight-bold" href="#" onclick="ExibirModal(@item.UsuarioId)">Excluir</a>
+                </div>
+
+            </div>
         }
-    </tbody>
-</table>
-
-<div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Excluir</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Deseja prosseguir com a exclusão desse usuário?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary btnExcluir">Sim</button>
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Não</button>
-            </div>
-        </div>
     </div>
 </div>
 
 
-@section Scripts{
 
 
-    <script>
-        function ExibirModal(id) {
-            $(".modal").modal();
-            $(".btnExcluir").on('click', function () {
-                $.ajax({
-                    url: "/Usuarios/Delete",
-                    method: "POST",
-                    data: { id: id },
-                    success: function (data) {
-                        $(".modal").modal('hide');
-                        location.reload(true);
-                    }
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Excluir</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja prosseguir com a exclusão desse usuário?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary btnExcluir">Sim</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Não</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @section Scripts{
+
+        <script>
+            function ExibirModal(id) {
+                $(".modal").modal();
+                $(".btnExcluir").on('click', function () {
+                    $.ajax({
+                        url: "/Usuarios/Delete",
+                        method: "POST",
+                        data: { id: id },
+                        success: function (data) {
+                            $(".modal").modal('hide');
+                            location.reload(true);
+                        }
+                    });
                 });
-            });
-        }
-    </script>
-
-}
+            }
+        </script>
+    }

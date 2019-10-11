@@ -51,7 +51,11 @@ namespace AgendamentoProjeto.Controllers
             ViewBag.UsuariosPendentes = _context.Usuarios.Where(u => u.StatusId == 2).ToList();
             ViewBag.Contagem = _context.Usuarios.Where(u => u.StatusId == 2).Count();
             var contexto = _context.Usuarios.Include(u => u.Cargo).Include(u => u.Curso);
-            return View(await contexto.ToListAsync());
+            //Exibe todos os usuários
+            //return View(await contexto.ToListAsync())
+
+            //exibe apenas usuários ativos
+            return View(await contexto.Where( u => u.StatusId == 1).ToListAsync());
         }
 
         [HttpPost]

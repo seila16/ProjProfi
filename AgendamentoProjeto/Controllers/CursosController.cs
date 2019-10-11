@@ -138,28 +138,11 @@ namespace AgendamentoProjeto.Controllers
             return View(curso);
         }
 
-        // GET: Cursos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.CursoId == id);
-            if (curso == null)
-            {
-                return NotFound();
-            }
-
-            return View(curso);
-        }
+       
 
         // POST: Cursos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             var cursos = _context.Usuarios.Where(x => x.CursoId == id).ToList();
             if (cursos.Count>0)

@@ -24,6 +24,18 @@ namespace AgendamentoProjeto.Controllers
             return View(await _context.Professor.ToListAsync());
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string Procurar)
+        {
+            if (!String.IsNullOrEmpty(Procurar))
+            {
+                return View(await _context.Professor.Where(x => x.NomeProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+            }
+
+            return View(await _context.Cursos.ToListAsync());
+        }
+
         // GET: Professors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -53,7 +65,7 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProfessorId,NomeProfessor")] Professor professor)
+        public async Task<IActionResult> Create([Bind("ProfessorId,NomeProfessor,EmailProfessor")] Professor professor)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +97,7 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProfessorId,NomeProfessor")] Professor professor)
+        public async Task<IActionResult> Edit(int id, [Bind("ProfessorId,NomeProfessor,EmailProfessor")] Professor professor)
         {
             if (id != professor.ProfessorId)
             {
@@ -115,28 +127,12 @@ namespace AgendamentoProjeto.Controllers
             return View(professor);
         }
 
-        // GET: Professors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var professor = await _context.Professor
-                .FirstOrDefaultAsync(m => m.ProfessorId == id);
-            if (professor == null)
-            {
-                return NotFound();
-            }
-
-            return View(professor);
-        }
+        
 
         // POST: Professors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        
+        public async Task<IActionResult> Delete(int id)
         {
             var professor = await _context.Professor.FindAsync(id);
             _context.Professor.Remove(professor);
