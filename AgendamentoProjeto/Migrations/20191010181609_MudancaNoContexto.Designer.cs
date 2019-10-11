@@ -4,14 +4,16 @@ using AgendamentoProjeto.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AgendamentoProjeto.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20191010181609_MudancaNoContexto")]
+    partial class MudancaNoContexto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,11 +64,15 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AgendamentoId");
+
                     b.Property<string>("Mensagem")
                         .IsRequired()
                         .HasMaxLength(150);
 
                     b.HasKey("AvisosId");
+
+                    b.HasIndex("AgendamentoId");
 
                     b.ToTable("AGV_Aviso");
                 });
@@ -323,6 +329,14 @@ namespace AgendamentoProjeto.Migrations
                     b.HasOne("AgendamentoProjeto.Models.Usuario", "Usuario")
                         .WithMany("Agendamentos")
                         .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("AgendamentoProjeto.Models.Aviso", b =>
+                {
+                    b.HasOne("AgendamentoProjeto.Models.Agendamento", "Agendamento")
+                        .WithMany()
+                        .HasForeignKey("AgendamentoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

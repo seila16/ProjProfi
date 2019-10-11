@@ -21,7 +21,9 @@ namespace AgendamentoProjeto.Controllers
         // GET: Agendamentos
         public async Task<IActionResult> Index()
         {
+            List<string> listaDeAvisos = new List<string>();
             var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario);
+
             return View(await contexto.ToListAsync());
         }
 
@@ -32,6 +34,7 @@ namespace AgendamentoProjeto.Controllers
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio");
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor");
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "NomeUsuario");
+            ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
             return View();
         }
 
@@ -40,7 +43,7 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId")] Agendamento agendamento)
+        public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
             if (ModelState.IsValid)
             {
@@ -52,6 +55,8 @@ namespace AgendamentoProjeto.Controllers
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+            ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+
             return View(agendamento);
         }
 
@@ -72,6 +77,8 @@ namespace AgendamentoProjeto.Controllers
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+            ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+
             return View(agendamento);
         }
 
@@ -80,7 +87,7 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId")] Agendamento agendamento)
+        public async Task<IActionResult> Edit(int id, [Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
             if (id != agendamento.AgendamentoId)
             {
@@ -111,6 +118,8 @@ namespace AgendamentoProjeto.Controllers
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+            ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+
             return View(agendamento);
         }
 

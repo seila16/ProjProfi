@@ -4,14 +4,16 @@ using AgendamentoProjeto.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AgendamentoProjeto.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20191010174120_inicial")]
+    partial class inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,9 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AvisosId");
+                    b.Property<int?>("AvisoId");
+
+                    b.Property<int>("AvisosId");
 
                     b.Property<DateTime>("DataAgendamento");
 
@@ -41,7 +45,9 @@ namespace AgendamentoProjeto.Migrations
 
                     b.HasKey("AgendamentoId");
 
-                    b.HasIndex("AvisosId");
+                    b.HasIndex("AvisoId")
+                        .IsUnique()
+                        .HasFilter("[AvisoId] IS NOT NULL");
 
                     b.HasIndex("DisciplinaId");
 
@@ -61,6 +67,8 @@ namespace AgendamentoProjeto.Migrations
                     b.Property<int>("AvisosId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AgendamentoId");
 
                     b.Property<string>("Mensagem")
                         .IsRequired()
@@ -187,9 +195,6 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EmailProfessor")
-                        .IsRequired();
-
                     b.Property<string>("NomeProfessor")
                         .IsRequired()
                         .HasMaxLength(60);
@@ -202,7 +207,6 @@ namespace AgendamentoProjeto.Migrations
                         new
                         {
                             ProfessorId = 1,
-                            EmailProfessor = "prof@admin.com",
                             NomeProfessor = "Professor admin"
                         });
                 });
@@ -298,8 +302,8 @@ namespace AgendamentoProjeto.Migrations
             modelBuilder.Entity("AgendamentoProjeto.Models.Agendamento", b =>
                 {
                     b.HasOne("AgendamentoProjeto.Models.Aviso", "Avisos")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("AvisosId");
+                        .WithOne("Agendamento")
+                        .HasForeignKey("AgendamentoProjeto.Models.Agendamento", "AvisoId");
 
                     b.HasOne("AgendamentoProjeto.Models.Disciplina", "Disciplina")
                         .WithMany("Agendamentos")

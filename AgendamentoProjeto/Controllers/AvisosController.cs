@@ -21,29 +21,10 @@ namespace AgendamentoProjeto.Controllers
         // GET: Avisos
         public async Task<IActionResult> Index()
         {
-            var contexto = _context.Aviso.Include(a => a.Agendamento);
-            return View(await contexto.ToListAsync());
+            return View(await _context.Aviso.ToListAsync());
         }
 
-        // GET: Avisos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aviso = await _context.Aviso
-                .Include(a => a.Agendamento)
-                .FirstOrDefaultAsync(m => m.AvisosId == id);
-            if (aviso == null)
-            {
-                return NotFound();
-            }
-
-            return View(aviso);
-        }
-
+   
         // GET: Avisos/Create
         public IActionResult Create(int AgendamentoId)
         {
@@ -56,19 +37,22 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Criar([Bind("AvisosId,AgendamentoId,Mensagem")] Aviso aviso)
+        public async Task<IActionResult> Criar([Bind("AvisosId,Mensagem")] Aviso aviso, string agendamento)
         {
-            var ag = _context.Agendamento.Find(aviso.AgendamentoId);
-            var novoId = _context.Aviso.Count();
-            aviso.AvisosId = novoId;
-            if (ModelState.IsValid)
+            int idInt = Convert.ToInt32(agendamento);
+          
+            
+            if (aviso != null)
             {
-                _context.Add(aviso);
+                _context.Add(aviso);             
                 await _context.SaveChangesAsync();
+
+                
                 return RedirectToAction("Index", "Agendamentos");
             }
-            ViewData["agendamentoId"] = aviso.AgendamentoId;
-            return View(aviso);
+           
+           // ViewData["agendamentoId"] = aviso.AgendamentoId;
+            return View("Create", aviso);
         }
 
 
@@ -134,8 +118,7 @@ namespace AgendamentoProjeto.Controllers
             }
 
             var aviso = await _context.Aviso
-                .Include(a => a.Agendamento)
-                .FirstOrDefaultAsync(m => m.AvisosId == id);
+              .FirstOrDefaultAsync(m => m.AvisosId == id);
             if (aviso == null)
             {
                 return NotFound();

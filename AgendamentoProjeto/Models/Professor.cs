@@ -16,6 +16,8 @@ namespace AgendamentoProjeto.Models
         [StringLength(60, ErrorMessage = "Limite de caracteres atingido")]
         [Display(Name = "Nome professor")]
         public string NomeProfessor { get; set; }
+        [Required(ErrorMessage ="Campo obrigatório")]
+        public string EmailProfessor { get; set; }
         public ICollection<Agendamento> Agendamentos { get; set; }
     }
 }
