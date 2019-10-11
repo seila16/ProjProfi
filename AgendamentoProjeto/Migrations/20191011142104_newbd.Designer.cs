@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgendamentoProjeto.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20191010185527_avisoagendamento")]
-    partial class avisoagendamento
+    [Migration("20191011142104_newbd")]
+    partial class newbd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,6 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AvisosId");
-
                     b.Property<DateTime>("DataAgendamento");
 
                     b.Property<int>("DisciplinaId");
@@ -42,8 +40,6 @@ namespace AgendamentoProjeto.Migrations
                     b.Property<int>("UsuarioId");
 
                     b.HasKey("AgendamentoId");
-
-                    b.HasIndex("AvisosId");
 
                     b.HasIndex("DisciplinaId");
 
@@ -64,11 +60,15 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AgendamentoId");
+
                     b.Property<string>("Mensagem")
                         .IsRequired()
                         .HasMaxLength(150);
 
                     b.HasKey("AvisosId");
+
+                    b.HasIndex("AgendamentoId");
 
                     b.ToTable("AGV_Aviso");
                 });
@@ -299,10 +299,6 @@ namespace AgendamentoProjeto.Migrations
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Agendamento", b =>
                 {
-                    b.HasOne("AgendamentoProjeto.Models.Aviso", "Avisos")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("AvisosId");
-
                     b.HasOne("AgendamentoProjeto.Models.Disciplina", "Disciplina")
                         .WithMany("Agendamentos")
                         .HasForeignKey("DisciplinaId")
@@ -326,6 +322,13 @@ namespace AgendamentoProjeto.Migrations
                         .WithMany("Agendamentos")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("AgendamentoProjeto.Models.Aviso", b =>
+                {
+                    b.HasOne("AgendamentoProjeto.Models.Agendamento", "Agendamento")
+                        .WithMany("Avisos")
+                        .HasForeignKey("AgendamentoId");
                 });
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Laboratorio", b =>

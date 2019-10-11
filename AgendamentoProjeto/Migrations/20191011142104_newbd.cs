@@ -4,24 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AgendamentoProjeto.Migrations
 {
-    public partial class inicial : Migration
+    public partial class newbd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AGV_Aviso",
-                columns: table => new
-                {
-                    AvisosId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AgendamentoId = table.Column<int>(nullable: false),
-                    Mensagem = table.Column<string>(maxLength: 150, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AGV_Aviso", x => x.AvisosId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AGV_Cargo",
                 columns: table => new
@@ -67,7 +53,8 @@ namespace AgendamentoProjeto.Migrations
                 {
                     ProfessorId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    NomeProfessor = table.Column<string>(maxLength: 60, nullable: false)
+                    NomeProfessor = table.Column<string>(maxLength: 60, nullable: false),
+                    EmailProfessor = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -158,19 +145,11 @@ namespace AgendamentoProjeto.Migrations
                     DisciplinaId = table.Column<int>(nullable: false),
                     UsuarioId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: true),
-                    ProfessorId = table.Column<int>(nullable: false),
-                    AvisosId = table.Column<int>(nullable: false),
-                    AvisoId = table.Column<int>(nullable: true)
+                    ProfessorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AGV_Agendamento", x => x.AgendamentoId);
-                    table.ForeignKey(
-                        name: "FK_AGV_Agendamento_AGV_Aviso_AvisoId",
-                        column: x => x.AvisoId,
-                        principalTable: "AGV_Aviso",
-                        principalColumn: "AvisosId",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AGV_Agendamento_AGV_Disciplina_DisciplinaId",
                         column: x => x.DisciplinaId,
@@ -203,6 +182,26 @@ namespace AgendamentoProjeto.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AGV_Aviso",
+                columns: table => new
+                {
+                    AvisosId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AgendamentoId = table.Column<int>(nullable: true),
+                    Mensagem = table.Column<string>(maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AGV_Aviso", x => x.AvisosId);
+                    table.ForeignKey(
+                        name: "FK_AGV_Aviso_AGV_Agendamento_AgendamentoId",
+                        column: x => x.AgendamentoId,
+                        principalTable: "AGV_Agendamento",
+                        principalColumn: "AgendamentoId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "AGV_Cargo",
                 columns: new[] { "CargoId", "NomeCargo" },
@@ -224,8 +223,8 @@ namespace AgendamentoProjeto.Migrations
 
             migrationBuilder.InsertData(
                 table: "AGV_Professor",
-                columns: new[] { "ProfessorId", "NomeProfessor" },
-                values: new object[] { 1, "Professor admin" });
+                columns: new[] { "ProfessorId", "EmailProfessor", "NomeProfessor" },
+                values: new object[] { 1, "prof@admin.com", "Professor admin" });
 
             migrationBuilder.InsertData(
                 table: "AGV_Status",
@@ -247,13 +246,6 @@ namespace AgendamentoProjeto.Migrations
                 table: "AGV_Usuario",
                 columns: new[] { "UsuarioId", "CargoId", "CursoId", "Email", "Login", "NomeUsuario", "Senha", "StatusId" },
                 values: new object[] { 1, 2, null, "TI@gmail.com", "ti", "TI", "ti", 1 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AGV_Agendamento_AvisoId",
-                table: "AGV_Agendamento",
-                column: "AvisoId",
-                unique: true,
-                filter: "[AvisoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AGV_Agendamento_DisciplinaId",
@@ -281,6 +273,11 @@ namespace AgendamentoProjeto.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AGV_Aviso_AgendamentoId",
+                table: "AGV_Aviso",
+                column: "AgendamentoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AGV_Usuario_CargoId",
                 table: "AGV_Usuario",
                 column: "CargoId");
@@ -299,10 +296,10 @@ namespace AgendamentoProjeto.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AGV_Agendamento");
+                name: "AGV_Aviso");
 
             migrationBuilder.DropTable(
-                name: "AGV_Aviso");
+                name: "AGV_Agendamento");
 
             migrationBuilder.DropTable(
                 name: "AGV_Disciplina");

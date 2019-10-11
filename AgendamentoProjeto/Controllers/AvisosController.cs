@@ -28,6 +28,11 @@ namespace AgendamentoProjeto.Controllers
         // GET: Avisos/Create
         public IActionResult Create(int AgendamentoId)
         {
+            var temNaBase = _context.Aviso.Where(a => a.AgendamentoId == AgendamentoId).ToList();
+            if (temNaBase.Any())
+            {
+                return RedirectToAction("Index", "Agendamentos", new { error = "Já existe um aviso anexado ao agendamento em questão, favor editar o aviso já existente" });
+            }
             ViewData["agendamentoId"] = AgendamentoId;
             return View();
         }
@@ -37,11 +42,12 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Criar([Bind("AvisosId,Mensagem")] Aviso aviso, string agendamento)
+        public async Task<IActionResult> Criar([Bind("AgendamentoId,AvisosId,Mensagem")] Aviso aviso)
         {
-            int idInt = Convert.ToInt32(agendamento);
-          
-            
+
+
+            //var ids = _context.Aviso.Count() + 1;
+            //aviso.AvisosId = ids;
             if (aviso != null)
             {
                 _context.Add(aviso);             
