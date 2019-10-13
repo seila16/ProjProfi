@@ -1,0 +1,30 @@
+﻿#NavBar{
+
+    height:100px;
+
+}
+
+#BarraAzul{
+
+    color:blue;
+}
+
+.nav-item{
+    direction:ltr;
+}
+
+
+#SpaceLeft{
+    margin-left:10px;
+}
+
+#SpaceRight{
+    margin-right:10px;
+    color:red;
+}
+
+div.a {
+    height: 20px;
+    background-color: dodgerblue;
+}
+

@@ -1,0 +1,37 @@
+﻿@model AgendamentoProjeto.Models.Curso
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@if (ViewBag.TemCargo == true)
+{
+    <div class="alert alert-danger mt-2" style="height:45px;">
+        <p><strong>Já existe um curso com o nome inserido!</strong></p>
+    </div>
+}
+<h4 class="mt-4 text-primary">Atualizar Curso</h4>
+<hr />
+
+<div class="row ">
+    <div class="mt-3">
+        <form asp-action="Edit" class="formCenter border border-primary rounded bg-light pt-xl-5 pb-xl-5" style="padding-left:100px;padding-right:100px;">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CursoId" />
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex">
+                <input type="submit" value="Salvar" class="btn btn-success text-white" />
+                <a asp-action="Index" class="btn ml-2 btn-info text-white">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

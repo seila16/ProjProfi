@@ -1,0 +1,45 @@
+﻿@model AgendamentoProjeto.Models.Usuario
+@{
+    Layout = "_LayoutLogin";
+}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/login.css" />
+
+<body id="backColor">
+    @if (ViewBag.naoResetou == true)
+    {
+        <div class="alert alert-danger mt-3">
+            <p>Código inserido incorreto favor gerar novamente o código de reset de senha!</p>
+        </div>
+    }
+
+    @if (ViewBag.erroCode == true)
+    {
+        <div class="alert alert-danger mt-3">
+            <p>Email ou Login inválidos, favor verifique e tente novamente!</p>
+        </div>
+    }
+    <div id="divLogin" class="rounded shadow-lg mt-5">
+        <h2 id="TitleSolic">Esqueci minha senha</h2>
+        <form asp-action="GerarCodigo">
+            <div class=" p-4">
+                <input asp-for="Login" name="Login" class="form-control" placeholder="Login" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="p-4">
+                <input type="email" asp-for="Email" placeholder="Email" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <input type="submit" value="Enviar" class="btn btn-info text-center" />
+                </div>
+                <div class="col-md-6 text-center">
+                    <a href="@Url.Action("Logar")" class="btn btn-info text-center">Voltar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

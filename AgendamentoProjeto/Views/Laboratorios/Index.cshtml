@@ -1,0 +1,254 @@
+﻿@model IEnumerable<AgendamentoProjeto.Models.Laboratorio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center;font-weight:bold;font-size:30px;color:gray">Laboratórios</h1>
+<br />
+<br />
+
+<<<<<<< HEAD
+<ul class="navbar-nav  flex-row mt-4">
+
+
+    <li class="nav-item">
+
+        <div style="width:300px" class="input-group mb-3">
+            <form asp-controller="Laboratorios" asp-action="Index" method="post" class="d-flex w-100">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit" method="post"> <img style="height:10px;width:10px" src="~/search.png" /> </button>
+                </div>
+                <input type="text" class="form-control" name="Procurar" placeholder="Pesquisar por Nome..." aria-describedby="basic-addon1">
+            </form>
+        </div>
+    </li>
+
+    <li>
+
+        <div>
+            <form asp-controller="QuantidadePost" asp-action="Index" method="post" class="d-flex">
+                <select onchange="ChamarBackend(this.value)" class="form-control" name="quantidade" id="mylist">
+                    <option value="quantidade">Quantidade</option>
+                    @foreach (var emp in ViewBag.quantidades)
+                    {
+                        <option>@emp</option>
+                    }
+                </select>
+            </form>
+        </div>
+    </li>
+
+
+    <li class="nav-item">
+
+        <div>
+            <form asp-controller="Laboratorios" asp-action="Index" method="post" class="d-flex">
+                <select class="form-control" name="Projetor" id="myboolList">
+                    <option value="">Projetor</option>
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+            </form>
+        </div>
+    </li>
+
+
+
+    <li>
+        <div class="text-center ml-3">
+            <a asp-action="Create" style="font-size:15px;background-color:dodgerblue" class="btn text-white"> Adicionar </a>
+        </div>
+    </li>
+
+
+
+</ul>
+
+<div class="container">
+    <div class="row" style="align-items:center;">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-5 border border-dark shadow ml-4 mr-4 mt-3">
+                <div class="d-flex">
+                    <label class="fonteSquares">Status: </label>
+                    @if (item.StatusId == 1)
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Disponível</label>
+                    }
+                    else if (item.StatusId == 2)
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Pendente</label>
+                    }
+                    else if (item.StatusId == 3)
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Cancelado</label>
+                    }
+                    else if (item.StatusId == 4)
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Bloqueado</label>
+                    }
+                    else if (item.StatusId == 5)
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Manutenção</label>
+                    }
+                </div>
+                <div class="d-flex">
+                    <label class="fonteSquares">Quantidade máquinas: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.QuantidadePcs)</label>
+                </div>
+                <div class="d-flex">
+                    <label class="fonteSquares">Nome Laboratório: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.NomeLaboratorio)</label>
+                </div>
+                <div class="d-flex">
+                    <label class="fonteSquares">Hardware Laboratório: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.Hardware)</label>
+                </div>
+                <div class="d-flex">
+                    <label class="fonteSquares">Software Laboratório: </label>
+                    <label class="fonteSquares text-primary ml-2 font-weight-bold">@Html.DisplayFor(modelItem => item.Software)</label>
+                </div>
+                <div class="d-flex">
+                    <label class="fonteSquares">Tem projetor?: </label>
+                    @if (item.Projetor == true)
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Sim</label>
+                    }
+                    else
+                    {
+                        <label class="fonteSquares text-primary ml-2 font-weight-bold">Não</label>
+                    }
+
+                </div>
+                <div class="d-flex justify-content-between mb-2 mt-2">
+                    <a style="background-color:darkblue; width:100px;" class="btn  text-white fonteSquares " href="#" onclick="ExibirModal(@item.LaboratorioId)">Excluir</a>
+                    <a style="background-color:darkblue ;width:100px;" class="btn  text-white fonteSquares" asp-action="Edit" asp-route-id="@item.LaboratorioId">Editar</a>
+                    <a style="background-color:darkblue" class="btn  text-white fonteSquares" asp-action="Manutencao" asp-route-id="@item.LaboratorioId">Manutenção</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja prosseguir com a exclusão desse laboratório?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary btnExcluir">Sim</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Não</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+
+    <script>
+        function ExibirModal(id) {
+            $(".modal").modal();
+            $(".btnExcluir").on('click', function () {
+                $.ajax({
+                    url: "/Laboratorios/Delete",
+                    method: "POST",
+                    data: { id: id },
+                    success: function (data) {
+                        $(".modal").modal('hide');
+                        location.reload(true);
+                    }
+                });
+            });
+        }
+
+        function ChamarBackend(quantidade) {
+
+             $.ajax({
+                    url: "/Laboratorios/QuantidadePost",
+                    method: "POST",
+                    data: { quantidade: quantidade },
+                    success: function () {                      
+                      //  location.reload(true);
+                    }
+                });
+        };
+    </script>
+
+
+
+}
+@*=======*@
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeLaboratorio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hardware)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Software)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuantidadePcs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Projetor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeLaboratorio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hardware)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Software)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantidadePcs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Projetor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.NomeStatus)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LaboratorioId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LaboratorioId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LaboratorioId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@
+@*>>>>>>> e15221a2e6ec65e9e9cdb90e4a53cf066080bcb7*@
