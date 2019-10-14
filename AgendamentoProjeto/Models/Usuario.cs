@@ -23,7 +23,7 @@ namespace AgendamentoProjeto.Models
         [Required(ErrorMessage = "Campo obrigatório")]
         [DataType(DataType.EmailAddress)]
         [StringLength(80, ErrorMessage = "Limite de caracteres atingido")]
-        [Display(Name = "E-mail")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Campo obrigatório")]
         [DataType(DataType.Password)]
