@@ -18,14 +18,66 @@ namespace AgendamentoProjeto.Controllers
             _context = context;
         }
 
-        // GET: Agendamentos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Aprovar(int AgendamentoId)
         {
-            List<string> listaDeAvisos = new List<string>();
-            var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario);
+            var ag = await _context.Agendamento.FindAsync(AgendamentoId);
+            if (ag == null)
+            {
+                return NotFound();
+            }
+            ag.StatusId = 1;
+            _context.Update(ag);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
+        public async Task<IActionResult> Reprovar(int AgendamentoId)
+        {
+            var ag = await _context.Agendamento.FindAsync(AgendamentoId);
+            if (ag == null)
+            {
+                return NotFound();
+            }
+            ag.StatusId = 4;
+            _context.Agendamento.Remove(ag);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+
+        // GET: Agendamentos
+        public async Task<IActionResult> Index(string error)
+        {
+            if (error != null)
+            {
+                ViewBag.ErrorDatabase = error;
+            }
+            List<string> listaDeAvisos = new List<string>();
+            var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status);
+            var avisos = _context.Aviso.Select(x => x);
+            ViewBag.AgendamentosPendentes = _context.Agendamento.Where(a => a.StatusId == 2).Select(a=>a);
+            ViewBag.Contagem = _context.Agendamento.Where(a => a.StatusId == 2).Count();
+            ViewBag.Avisos = avisos;
             return View(await contexto.ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string Procurar, bool gambiarra)
+        {
+            if (!String.IsNullOrEmpty(Procurar))
+            {
+                var avisos = _context.Aviso.Select(x => x);
+                ViewBag.Avisos = avisos;
+                DateTime DataFinal = Convert.ToDateTime(Procurar);
+                var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status);
+                return View(await contexto.Where(x => x.DataAgendamento.ToShortDateString().Contains(DataFinal.ToShortDateString())).ToListAsync());
+
+            }
+            var avisos1 = _context.Aviso.Select(x => x);
+            ViewBag.Avisos = avisos1;
+            return View(await _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a=>a.Status).ToListAsync());
+        }
+
 
         // GET: Agendamentos/Create
         public IActionResult Create()
@@ -34,7 +86,8 @@ namespace AgendamentoProjeto.Controllers
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio");
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor");
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "NomeUsuario");
-            ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
+          
             return View();
         }
 
@@ -45,6 +98,28 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
+            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
+            if (temNaBaseMesmoHorario.Any())
+            {
+                ViewBag.error = "Já existe um agendamento para a data e horário escolhida.";
+                ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
+                ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
+                ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
+                ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+                ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+                return View();
+            }
+            if (agendamento.DataAgendamento < DateTime.Now)
+            {
+
+                ViewBag.error = "Data ou horário anterior a data atual, favor seleciona outra data ou horário.";
+                ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
+                ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
+                ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
+                ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+                ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(agendamento);
@@ -73,6 +148,7 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
+
             ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
             ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
@@ -94,6 +170,28 @@ namespace AgendamentoProjeto.Controllers
                 return NotFound();
             }
 
+            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
+            if (temNaBaseMesmoHorario.Any())
+            {
+                ViewBag.error = "Já existe um agendamento para a data e horário escolhida.";
+                ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
+                ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
+                ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
+                ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+                ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+                return View();
+            }
+            if (agendamento.DataAgendamento < DateTime.Now)
+            {
+
+                ViewBag.error = "Data ou horário anterior a data atual, favor seleciona outra data ou horário.";
+                ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
+                ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
+                ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
+                ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
+                ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -123,8 +221,8 @@ namespace AgendamentoProjeto.Controllers
             return View(agendamento);
         }
 
-    
-        
+
+
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

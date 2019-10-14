@@ -25,7 +25,7 @@ namespace AgendamentoProjeto.Controllers
             bool logado = true;
             if (logado)
             {
-                return RedirectToAction("Index","Agendamento");
+                return RedirectToAction("Index","Agendamentos");
             }
             else
             {

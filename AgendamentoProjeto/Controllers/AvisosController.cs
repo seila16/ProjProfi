@@ -37,21 +37,22 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Criar([Bind("AvisosId,Mensagem")] Aviso aviso, string agendamento)
+        public async Task<IActionResult> Criar([Bind("AgendamentoId,AvisosId,Mensagem")] Aviso aviso)
         {
-            int idInt = Convert.ToInt32(agendamento);
-          
-            
+
+
+            //var ids = _context.Aviso.Count() + 1;
+            //aviso.AvisosId = ids;
             if (aviso != null)
             {
-                _context.Add(aviso);             
+                _context.Add(aviso);
                 await _context.SaveChangesAsync();
 
-                
+
                 return RedirectToAction("Index", "Agendamentos");
             }
-           
-           // ViewData["agendamentoId"] = aviso.AgendamentoId;
+
+            // ViewData["agendamentoId"] = aviso.AgendamentoId;
             return View("Create", aviso);
         }
 
