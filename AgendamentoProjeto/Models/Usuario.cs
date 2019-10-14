@@ -18,6 +18,7 @@ namespace AgendamentoProjeto.Models
         public string NomeUsuario { get; set; }
         [Required(ErrorMessage = "Campo obrigatório")]
         [StringLength(20, ErrorMessage = "Limite de caracteres atingido")]
+        [Display(Name = "Login")]
         public string Login { get; set; }
         [Required(ErrorMessage = "Campo obrigatório")]
         [DataType(DataType.EmailAddress)]

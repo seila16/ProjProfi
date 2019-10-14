@@ -22,8 +22,15 @@ namespace AgendamentoProjeto.Controllers
         }
         public IActionResult Index()
         {
-
-            return View();
+            bool logado = true;
+            if (logado)
+            {
+                return RedirectToAction("Index","Agendamento");
+            }
+            else
+            {
+                return RedirectToAction("Logar");
+            }
         }
 
         public IActionResult Logar()
@@ -161,7 +168,7 @@ namespace AgendamentoProjeto.Controllers
 
                 return RedirectToAction("Logar");
             }
-            catch (Exception ex)
+            catch
             {
                 TempData["msgSucesso"] = "Ocorreu um erro na sua solicitação, favor contate o administrador do site";
                 return RedirectToAction("GerarSenha");

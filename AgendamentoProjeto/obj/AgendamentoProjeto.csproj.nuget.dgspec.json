@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\J130075\\Desktop\\haha\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {}
+    "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\J130075\\Desktop\\haha\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {
+    "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\J130075\\Desktop\\haha\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+        "projectUniqueName": "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
         "projectName": "AgendamentoProjeto",
-        "projectPath": "C:\\Users\\J130075\\Desktop\\haha\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
-        "packagesPath": "C:\\Users\\J130075\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\J130075\\Desktop\\haha\\ProjProfi\\AgendamentoProjeto\\obj\\",
+        "projectPath": "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+        "packagesPath": "C:\\Users\\rodri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\J130075\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\rodri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
