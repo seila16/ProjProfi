@@ -1,44 +1,33 @@
-﻿#backColor {
-    background-color:#1475CB;
+﻿/*#backColor {
+    background: linear-gradient(-90deg, #004CFF, #00CEFF);
+}*/
+
+html {
+    width: 100% !important;
 }
 
-#divLogin {
+/*#divLogin {
     background-color: white;
     width: 500px;
     height: 500px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}*/
+
+.inputStyle {
+    width: 100px;
 }
 
-.inputStyle{
-    width:100px;
+.labelStyle {
+    align-self: center;
 }
 
-.inputSelect{
-    width:200px;
-}
-
-.labelStyle{
-    align-self:center;
-}
-
-.gerarSenhaStyle{
-    background-color:blue;
-    width:500px;
-    height:30px;
-}
-
-.flexCaixa{
-    display:flex;
-    flex-direction:row;
-    justify-content:space-around;
-    margin-top:25px;
-}
-
-#EsqueciSenha {
-    color: rgba(0,0,0,0.5);
-    font-size: 15px;
+.flexCaixa {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 25px;
 }
 
 #btnLogin {
@@ -47,16 +36,44 @@
     height: 40px;
 }
 
-#TitleSolic {
-    font-size: 25px;
-    color:#6F6F67;
-    text-align: center
-}
 
 #btnSolic {
     font-size: 15px;
     width: 120px;
     height: 40px;
-    display:flex;
-    align-self:center;
+    display: flex;
+    align-self: center;
+}
+
+
+.backgroundImage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+    .backgroundImage img {
+        object-fit: cover;
+    }
+
+
+.surge {
+    animation: surge;
+    animation-duration: 800ms;
+}
+
+
+@keyframes surge {
+    from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
