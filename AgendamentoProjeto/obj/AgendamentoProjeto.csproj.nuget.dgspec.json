@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {}
+    "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {
+    "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+        "projectUniqueName": "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
         "projectName": "AgendamentoProjeto",
-        "projectPath": "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
-        "packagesPath": "C:\\Users\\rodri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rodri\\OneDrive\\Compartilhamento\\Projetos\\ProjetoProfissional\\ProjProfi\\AgendamentoProjeto\\obj\\",
+        "projectPath": "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+        "packagesPath": "C:\\Users\\thigg\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\rodri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thigg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -68,16 +68,10 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }
