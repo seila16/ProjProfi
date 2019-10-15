@@ -66,26 +66,22 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CursoId,Nome")] Curso curso)
         {
-            var temCurso = _context.Cursos.Where(x => x.Nome==curso.Nome).ToList();
-            if (ModelState.IsValid && temCurso.Count == 0)
+            var temCurso = _context.Cursos.Where(x => x.Nome == curso.Nome).ToList();
+            if (temCurso.Count > 0)
+            {
+                ViewBag.TemCurso = true;
+                return View();
+            }
+            if (ModelState.IsValid)
             {
                 _context.Add(curso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-               
-                    ViewBag.NomeRepetido = true;
-                    
-                    ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", curso.CursoId);
-                    
-                    return View(curso);
+            return View(curso);
+        }
 
-                }
-            }
-            
-        
+
 
         // GET: Cursos/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -115,6 +111,12 @@ namespace AgendamentoProjeto.Controllers
                 return NotFound();
             }
 
+            var temCurso = _context.Cursos.Where(x => x.Nome == curso.Nome).ToList();
+            if (temCurso.Count > 0)
+            {
+                ViewBag.TemCurso = true;
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -138,7 +140,7 @@ namespace AgendamentoProjeto.Controllers
             return View(curso);
         }
 
-       
+
 
         // POST: Cursos/Delete/5
         [HttpPost]

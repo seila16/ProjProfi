@@ -13,54 +13,35 @@
             <strong>@TempData["msgSucesso"]</strong>
         </div>
     }
-
-
-    <div class="backgroundImage">
-        <img src="~/img/imagefundo.jpg" class="w-100 h-100" />
-    </div>
-
-
-
-    <div class="card rounded shadow-lg container mt-5 surge">
-
-        <h2 class="pt-2 text-info text-center">Tela de Registro</h2>
-        <form asp-action="EnviarSolic" class="p-4">
+    <div id="divLogin" class="rounded shadow-lg container mt-5">
+        <form asp-action="EnviarSolic">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="pt-2">
-                <label asp-for="NomeUsuario" class="control-label text-center"></label>
+            <h2 id="TitleSolic" class="mt-2">Solicitar Usuário</h2>
+            <div class=" p-3">
                 <input asp-for="NomeUsuario" class="form-control" placeholder="Nome" />
                 <span asp-validation-for="NomeUsuario" class="text-danger"></span>
             </div>
-            <div class="pt-2">
-                <label asp-for="Login" class="control-label text-center"></label>
+            <div class="p-3">
                 <input asp-for="Login" class="form-control" placeholder="Login" />
                 <span asp-validation-for="Login" class="text-danger"></span>
             </div>
-            <div class="pt-2">
-                <label asp-for="Email" class="control-label text-center"></label>
+            <div class="p-3">
                 <input type="email" asp-for="Email" class="form-control" placeholder="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="pt-2">
-                <label asp-for="Senha" class="control-label text-center"></label>
+            <div class="p-3">
                 <input type="password" asp-for="Senha" class="form-control" placeholder="Senha" />
                 <span asp-validation-for="Senha" class="text-danger"></span>
             </div>
-            <div class="pt-2">
-                <input type="password" asp-for="Senha" class="form-control" placeholder="Confirmar Senha" />
-                <span asp-validation-for="Senha" class="text-danger"></span>
-            </div>
-            <hr />
-            <div class="pt-2">
+            <div class="p-3">
                 <select asp-for="CargoId" class="form-control" asp-items="ViewBag.CargoId"></select>
             </div>
-            <div class="row pt-2">
+            <div class="row">
                 <div class="col-md-6 text-center">
-                    <a asp-action="Logar" class="btn btn-outline-info text-center w-100 mt-2">Voltar</a>
+                    <a asp-action="Logar" class="btn btn-info text-center">Voltar</a>
                 </div>
                 <div class="col-md-6 text-center">
-                    <input type="submit" value="Enviar" class="btn btn-info text-center w-100 mt-2" />
+                    <input type="submit" value="Enviar" class="btn btn-info text-center" />
                 </div>
             </div>
         </form>

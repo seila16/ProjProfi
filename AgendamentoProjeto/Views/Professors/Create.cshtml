@@ -4,12 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
-@if (ViewBag.TemCargo == true)
+@if (ViewBag.TemProfessor == true || ViewBag.TemProfessorEmail == true)
 {
     <div class="alert alert-danger mt-2" style="height:45px;">
-        <p><strong>Já existe um professor com o nome inserido!</strong></p>
+        <p><strong>Este Professor já está cadastrado!</strong></p>
     </div>
 }
+
+
+
+
+
 
 <h4 class="mt-4 text-primary">Adicionar Professor</h4>
 <hr />

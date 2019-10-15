@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+@model AgendamentoProjeto.Models.Usuario
+
+
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,12 +27,21 @@
 </head>
 <body>
     <header>
+
+       
+        @if (ViewBag.Cargoid == 1 )
+        {
+
+
+
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand font-italic" href="#">Agendamentos UCB</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            
             <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
                 <ul class="navbar-nav mr-auto ml-5">
                     <li class="nav-item">
@@ -61,7 +76,36 @@
             </div>
         </nav>
 
+        }
+        else
+        {
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand font-italic" href="#">Agendamentos UCB</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+            <ul class="navbar-nav mr-auto ml-5">
+                
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold" asp-area="" asp-controller="Avisos" asp-action="Index">Avisos</a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold" asp-area="" asp-controller="Login" asp-action="Logout">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">

@@ -45,11 +45,27 @@ namespace AgendamentoProjeto.Controllers
         }
 
         // GET: Usuarios
-        public async Task<IActionResult> Index(bool NotDelete)
+        public async Task<IActionResult> Index(bool NotDelete, Usuario usuario)
         {
             ViewBag.NotDelete = NotDelete;
             ViewBag.UsuariosPendentes = _context.Usuarios.Where(u => u.StatusId == 2).ToList();
             ViewBag.Contagem = _context.Usuarios.Where(u => u.StatusId == 2).Count();
+
+            ViewBag.CargoContexto = _context.Usuarios.Where(u => u.CargoId == 1).ToList();
+            
+            //var CargoUsuario = _context.Usuarios.Where(u => u.Cargo.NomeCargo == usuario.Cargo.NomeCargo).ToList();
+
+            //if (CargoUsuario.Equals("T.I"))
+            //{
+            //    ViewBag.CargoUsuario = true;
+            //    return View();
+
+            //}
+
+
+
+
+
             var contexto = _context.Usuarios.Include(u => u.Cargo).Include(u => u.Curso);
             //Exibe todos os usuários
             //return View(await contexto.ToListAsync())
@@ -57,6 +73,8 @@ namespace AgendamentoProjeto.Controllers
             //exibe apenas usuários ativos
             return View(await contexto.Where( u => u.StatusId == 1).ToListAsync());
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> Index(string Procurar)
@@ -142,6 +160,7 @@ namespace AgendamentoProjeto.Controllers
            
         }
 
+       
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

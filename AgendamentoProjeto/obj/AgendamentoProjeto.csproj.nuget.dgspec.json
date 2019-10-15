@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {}
+    "C:\\Users\\thigg\\source\\repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {
+    "C:\\Users\\thigg\\source\\repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+        "projectUniqueName": "C:\\Users\\thigg\\source\\repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
         "projectName": "AgendamentoProjeto",
-        "projectPath": "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
+        "projectPath": "C:\\Users\\thigg\\source\\repos\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
         "packagesPath": "C:\\Users\\thigg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thigg\\Source\\Repos\\ProjProfi\\AgendamentoProjeto\\obj\\",
+        "outputPath": "C:\\Users\\thigg\\source\\repos\\ProjProfi\\AgendamentoProjeto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -67,6 +67,16 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProfessorId,NomeProfessor,EmailProfessor")] Professor professor)
         {
+            var temProfessor = _context.Professor.Where(x => x.NomeProfessor == professor.NomeProfessor).ToList();
+            var temProfessorEmail = _context.Professor.Where(x => x.EmailProfessor == professor.EmailProfessor).ToList();
+            if (temProfessor.Count > 0 || temProfessorEmail.Count > 0)
+            {
+                ViewBag.TemProfessor = true;
+                ViewBag.TemProfessorEmail = true;
+                return View();
+            }
+            
+            
             if (ModelState.IsValid)
             {
                 _context.Add(professor);
@@ -104,6 +114,14 @@ namespace AgendamentoProjeto.Controllers
                 return NotFound();
             }
 
+            var temProfessor = _context.Professor.Where(x => x.NomeProfessor == professor.NomeProfessor).ToList();
+            var temProfessorEmail = _context.Professor.Where(x => x.EmailProfessor == professor.EmailProfessor).ToList();
+            if (temProfessor.Count > 0 && temProfessorEmail.Count > 0)
+            {
+                ViewBag.TemProfessor = true;
+                ViewBag.TemProfessorEmail = true;
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -127,7 +145,7 @@ namespace AgendamentoProjeto.Controllers
             return View(professor);
         }
 
-        
+
 
         // POST: Professors/Delete/5
         [HttpPost]
