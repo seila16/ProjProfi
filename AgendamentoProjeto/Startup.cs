@@ -32,11 +32,13 @@ namespace AgendamentoProjeto
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
+
             services.AddDbContext<Contexto>(opcoes => opcoes.UseSqlServer(Configuration.GetConnectionString("Conexao")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(40);
+                options.IdleTimeout = TimeSpan.FromMinutes(50);
             });
             services.AddMvc();
         }

@@ -803,3 +803,6 @@ C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\n
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.dll
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.pdb
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csproj.CopyComplete
+C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\SolicitarAgendamento.cshtml.g.cs
+C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\MeusAgendamentos.cshtml.g.cs
+C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\DashBoardAgendamentos.cshtml.g.cs

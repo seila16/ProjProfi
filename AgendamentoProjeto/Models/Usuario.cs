@@ -35,6 +35,7 @@ namespace AgendamentoProjeto.Models
         public Curso Curso { get; set; }
         public int? StatusId { get; set; }
         public Status Status { get; set; }
+
         public ICollection<Agendamento> Agendamentos { get; set; }
 
 

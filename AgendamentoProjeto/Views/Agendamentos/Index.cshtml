@@ -46,11 +46,14 @@
                                 <p class="font-weight-bold" style="font-size:14px;">Disciplina: </p>
                                 <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.Disciplina.NomeDisciplina</p>
                             </div>
-
+                            <div class="d-flex">
+                                <p class="font-weight-bold" style="font-size:14px;">Login solicitante: </p>
+                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.Usuario.Login</p>
+                            </div>
                             <div class="d-flex ">
                                 <a href="@Url.Action("Aprovar", "Agendamentos", new { ag.AgendamentoId })" class="btn btn-success btn-sm  font-weight-bold">Aprovar</a>
 
-                                <a href="@Url.Action("Reprovar", "Agendamentos", new { ag.AgendamentoId })" style="margin-left:2px;" class="btn btn-sm btn-danger ml-3 font-weight-bold text-white">Reprovar</a>
+                                <a href="#" onclick="ExibirInputModal(@ag.AgendamentoId)" style="margin-left:2px;" class="btn btn-sm btn-danger ml-3 font-weight-bold text-white">Reprovar</a>
                             </div>
 
                         </div>
@@ -66,7 +69,8 @@
 
 }
 
-<div class="d-flex mt-4">
+<hr class="bg-info mt-5" />
+<div class="d-flex mt-5">
     <form asp-action="Index" method="post">
         <div class="input-group">
             <input class="form-control py-2" type="date" name="Procurar" placeholder="Pesquisar por Data..." id="example-search-input">
@@ -123,7 +127,10 @@
                             <p class="font-weight-bold" style="font-size:14px;">Disciplina: </p>
                             <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.Disciplina.NomeDisciplina</p>
                         </div>
-
+                        <div class="d-flex">
+                            <p class="font-weight-bold" style="font-size:14px;">Login solicitante: </p>
+                            <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.Usuario.Login</p>
+                        </div>
                         @foreach (var avis in ViewBag.Avisos)
                         {
                             if (avis.AgendamentoId == nomeC.AgendamentoId)
@@ -147,7 +154,7 @@
     }
 </div>
 
-<div class="modal" tabindex="-1" role="dialog">
+<div class="modal" id="modal1" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -167,13 +174,33 @@
     </div>
 </div>
 
+<div class="modal" id="modal2" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mensagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="control-label">Digite o motivo da reprovação</label>
+                <input name="valormsg" class="form-control" id="inputModal" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary btnEnviar">Enviar</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
 
 
     <script>
         function ExibirModal(id) {
-            $(".modal").modal();
+            $("#modal1").modal();
             $(".btnExcluir").on('click', function () {
                 $.ajax({
                     url: "/Agendamentos/Delete",
@@ -185,6 +212,26 @@
                     }
                 });
             });
+        }
+
+        function ExibirInputModal(AgendamentoId) {
+            $("#modal2").modal();
+            $(".btnEnviar").on('click', function (){
+                var mensagem = $('#inputModal').val()
+                if (mensagem != null) {
+                    $.ajax({
+                        url: "/Agendamentos/Reprovar",
+                        method: "POST",
+                        data: { AgendamentoId: AgendamentoId, mensagem: mensagem },
+                        success: function (data) {
+                            $(".modal").modal('hide');
+                            location.reload(true);
+                        }
+                    });
+                } else {
+                    alert('favor preencha o campo de mensagem!')
+                }
+            })
         }
     </script>
 
