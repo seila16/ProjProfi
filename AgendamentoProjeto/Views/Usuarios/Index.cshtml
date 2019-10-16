@@ -34,25 +34,6 @@
 @if (ViewBag.Contagem != 0)
 {
     <h6 class="mt-2">Usuários pendentes</h6>
-
-    @*<div class="col-md-5 border border-dark shadow ml-4 mr-4 mt-3">
-
-
-        <div class="d-flex">
-
-            <label class="font-weight-bold">
-                @Html.DisplayNameFor(model => model.NomeUsuario)
-
-            </label>
-        </div>
-
-        <div class="d-flex">
-            <label class="font-weight-bold">   @Html.DisplayNameFor(model => model.Email)  </label>
-
-        </div>*@
-
-       
-
         <div class="container">
             <div class="row" style="align-items:center;">
                 @foreach (var usu in ViewBag.UsuariosPendentes)

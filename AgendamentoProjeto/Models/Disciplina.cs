@@ -16,6 +16,7 @@ namespace AgendamentoProjeto.Models
         [StringLength(40, ErrorMessage = "Limite de caracteres atingido")]
         [Display(Name = "Nome da disciplina")]
         public string NomeDisciplina { get; set; }
+
         public ICollection<Agendamento> Agendamentos { get; set; }
     }
 }

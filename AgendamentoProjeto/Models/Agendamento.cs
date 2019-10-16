@@ -26,7 +26,6 @@ namespace AgendamentoProjeto.Models
         public Status Status { get; set; }
         public int ProfessorId { get; set; }
         public Professor Professor { get; set; }
-        public int? AvisosId { get; set; }
-        public Aviso Avisos { get; set; }
+        public ICollection<Aviso> Avisos { get; set; }
     }
 }
