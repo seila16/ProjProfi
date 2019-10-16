@@ -22,15 +22,16 @@ namespace AgendamentoProjeto.Controllers
         }
         public IActionResult Index()
         {
-            bool logado = true;
-            if (logado)
-            {
-                return RedirectToAction("Index","Agendamento");
-            }
-            else
-            {
-                return RedirectToAction("Logar");
-            }
+            //bool logado = true;
+            //if (logado)
+            //{
+            //    return RedirectToAction("Index","Agendamentos");
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Logar");
+            //}
+            return RedirectToAction("Logar");
         }
 
         public IActionResult Logar()
@@ -46,9 +47,14 @@ namespace AgendamentoProjeto.Controllers
             ViewData["CargoId"] = new SelectList(_contexto.Cargos, "CargoId", "NomeCargo");
             //var login = from user in _contexto.Usuarios where user.Login == usuario.Login && user.Senha == usuario.Senha && user.CargoId == usuario.CargoId && usuario.StatusId == 1 select user;
             var login = _contexto.Usuarios.Where(u => u.Login == usuario.Login && u.Senha == usuario.Senha && u.CargoId == usuario.CargoId && u.StatusId == 1).ToList();
-
+     
             if (login.Any())
             {
+                var x = login.Select(a=>a.UsuarioId).FirstOrDefault();
+                var y = login.Select(a => a.Email).FirstOrDefault();
+                HttpContext.Session.SetInt32("usuarioIdLogado", x);
+                HttpContext.Session.SetString("LoginLogado", usuario.Login);
+                HttpContext.Session.SetString("EmailLogado", y);
                 return RedirectToAction("Index", "Agendamentos");
             }
             else

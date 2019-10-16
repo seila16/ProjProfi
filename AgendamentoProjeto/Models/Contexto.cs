@@ -29,7 +29,6 @@ namespace AgendamentoProjeto.Models
             modelBuilder.Entity<Agendamento>().HasOne(a => a.Disciplina).WithMany(a => a.Agendamentos).HasForeignKey(a => a.DisciplinaId);
             modelBuilder.Entity<Agendamento>().HasOne(a => a.Usuario).WithMany(a => a.Agendamentos).HasForeignKey(a => a.UsuarioId);
             modelBuilder.Entity<Agendamento>().HasOne(a => a.Status).WithMany(a => a.Agendamentos).HasForeignKey(a => a.StatusId);
-            modelBuilder.Entity<Agendamento>().HasOne(a => a.Avisos).WithMany(a => a.Agendamentos).HasForeignKey(a => a.AvisosId);
          
             modelBuilder.Entity<Agendamento>().HasOne(a => a.Professor).WithMany(a => a.Agendamentos).HasForeignKey(a => a.ProfessorId);
             modelBuilder.Entity<Laboratorio>().HasOne(l => l.Status).WithMany(l => l.Laboratorios).HasForeignKey(l => l.LaboratorioId);

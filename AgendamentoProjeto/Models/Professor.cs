@@ -18,6 +18,7 @@ namespace AgendamentoProjeto.Models
         public string NomeProfessor { get; set; }
         [Required(ErrorMessage ="Campo obrigatório")]
         public string EmailProfessor { get; set; }
+
         public ICollection<Agendamento> Agendamentos { get; set; }
     }
 }

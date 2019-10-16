@@ -10,14 +10,14 @@
         <p><strong>@ViewBag.error</strong></p>
     </div>
 }
-<h4 class="mt-4 text-primary">Adicionar Agendamento</h4>
+<h4 class="mt-4 text-primary">Solicitar Agendamento</h4>
 <hr />
 <div class="row">
     <div class="col-md-3">
 
     </div>
     <div class="border border-primary rounded bg-light pt-xl-5 pb-xl-5 col-md-5 ml-3" style="padding-left:100px;padding-right:100px;">
-        <form asp-action="Create">
+        <form asp-action="SalvarSolicitacao">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DataAgendamento" class="control-label"></label>
@@ -34,16 +34,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Usuario" class="control-label"></label>
-                <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
+                <input value="@ViewBag.user" class="form-control" readonly="readonly" />
             </div>
             <div class="form-group">
                 <label asp-for="Professor" class="control-label"></label>
                 <select asp-for="ProfessorId" class="form-control" asp-items="ViewBag.ProfessorId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
-            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Criar" class="btn btn-success" />
                 <a asp-action="Index" class="btn ml-2 btn-info text-white">Voltar</a>

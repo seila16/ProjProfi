@@ -31,6 +31,7 @@ namespace AgendamentoProjeto.Models
         public bool Projetor { get; set; }
         public int? StatusId { get; set; }
         public Status Status { get; set; }
+
         public ICollection<Agendamento> Agendamentos { get; set; }
     }
 }
