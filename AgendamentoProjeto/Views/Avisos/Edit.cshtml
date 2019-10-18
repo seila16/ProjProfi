@@ -1,33 +1,57 @@
-﻿@model AgendamentoProjeto.Models.Aviso
-
+﻿
+@model AgendamentoProjeto.Models.Aviso
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
 
-<h1>Edit</h1>
-
-<h4>Aviso</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AvisosId" />
-           
-            <div class="form-group">
-                <label asp-for="Mensagem" class="control-label"></label>
-                <input asp-for="Mensagem" class="form-control" />
-                <span asp-validation-for="Mensagem" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+@if (ViewBag.TemAviso == true)
+{
+    <div class="alert alert-danger mt-2" style="height:45px;">
+        <p><strong>Já existe Esse Aviso!</strong></p>
     </div>
-</div>
+
+}
+
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <h4 class="mt-4 text-primary">Atualizar Aviso</h4>
+
+    <hr />
+
+
+    <div class="row" style="margin-top:100px;">
+        <div class="mt-5">
+            <form asp-action="Edit" class="formCenter border border-primary rounded bg-light pt-xl-5 pb-xl-5 mt-5" style="padding-left:100px;padding-right:100px;">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="AvisosId" />
+                <div class="form-group">
+
+                    <label class="control-label">ID do Agendamento</label>
+                    <input asp-for="AgendamentoId" readonly="readonly" value="@ViewBag.agendamentoId" class="form-control" />
+                    <span asp-validation-for="AgendamentoId" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mensagem" class="control-label"></label>
+                    <input asp-for="Mensagem" class="form-control" />
+                    <span asp-validation-for="Mensagem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

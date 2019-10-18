@@ -144,7 +144,9 @@ namespace AgendamentoProjeto.Migrations
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Laboratorio", b =>
                 {
-                    b.Property<int>("LaboratorioId");
+                    b.Property<int>("LaboratorioId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Hardware")
                         .IsRequired()
@@ -165,6 +167,8 @@ namespace AgendamentoProjeto.Migrations
                     b.Property<int?>("StatusId");
 
                     b.HasKey("LaboratorioId");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("AGV_Laboratorio");
 
@@ -241,6 +245,11 @@ namespace AgendamentoProjeto.Migrations
                         {
                             StatusId = 4,
                             NomeStatus = "Bloqueado"
+                        },
+                        new
+                        {
+                            StatusId = 5,
+                            NomeStatus = "Manutenção"
                         });
                 });
 
@@ -333,8 +342,7 @@ namespace AgendamentoProjeto.Migrations
                 {
                     b.HasOne("AgendamentoProjeto.Models.Status", "Status")
                         .WithMany("Laboratorios")
-                        .HasForeignKey("LaboratorioId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StatusId");
                 });
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Usuario", b =>

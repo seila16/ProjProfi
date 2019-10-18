@@ -1,9 +1,17 @@
 ﻿@model AgendamentoProjeto.Models.Agendamento
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
-
 @if (ViewBag.error != null)
 {
     <div class="alert alert-danger mt-2" style="height:45px;">

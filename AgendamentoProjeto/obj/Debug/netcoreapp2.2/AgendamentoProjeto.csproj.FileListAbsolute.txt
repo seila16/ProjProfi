@@ -733,7 +733,6 @@ C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\bin\Debug\n
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\bin\Debug\netcoreapp2.2\AgendamentoProjeto.pdb
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\bin\Debug\netcoreapp2.2\AgendamentoProjeto.Views.dll
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\bin\Debug\netcoreapp2.2\AgendamentoProjeto.Views.pdb
-C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csprojAssemblyReference.cache
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.RazorAssemblyInfo.cache
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.RazorAssemblyInfo.cs
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.AssemblyInfoInputs.cache
@@ -806,3 +805,4 @@ C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\n
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\SolicitarAgendamento.cshtml.g.cs
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\MeusAgendamentos.cshtml.g.cs
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\DashBoardAgendamentos.cshtml.g.cs
+C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csprojAssemblyReference.cache

@@ -1,37 +1,124 @@
 ﻿@model IEnumerable<AgendamentoProjeto.Models.Aviso>
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
 
-<h1>Index</h1>
+<h1 style="text-align:center;font-weight:bold;font-size:30px;" class="mt-3 text-primary">Avisos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-         
-            <th>
-                @Html.DisplayNameFor(model => model.Mensagem)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Mensagem)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AvisosId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AvisosId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AvisosId">Delete</a>
-            </td>
-        </tr>
+
+<br />
+<br />
+
+<div class="d-flex">
+    <form asp-action="Index" method="post">
+        <div class="input-group">
+            <input class="form-control py-2" type="search" name="Procurar" placeholder="Pesquisar por Aviso..." id="example-search-input">
+            <span class="input-group-append">
+                <button class="btn btn-outline-info" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <div class="ml-2">
+        <a asp-action="Create" class="text-white btn btn-success"> <i class="fa fa-plus fa-1x"></i> </a>
+    </div>
+</div>
+
+
+
+<div class="row mt-5">
+    @foreach (var nomeAviso in Model)
+    {
+        @foreach (var ag in ViewBag.Agendamentos)
+        {
+            @if (nomeAviso.AgendamentoId == ag.AgendamentoId)
+            {
+                <div class="col-sm-4 mt-3 ">
+                    <div class="card bg-light">
+                        <div class="card-body border rounded border-primary">
+
+                            <div class="d-flex">
+                                <p class="font-weight-bold" style="font-size:14px;">Data agendamento: </p>
+                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.DataAgendamento.ToShortDateString() - @ag.DataAgendamento.ToShortTimeString()</p>
+                            </div>
+
+                            <div class="d-flex">
+                                <p class="font-weight-bold" style="font-size:14px;">Professor: </p>
+                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.Professor.NomeProfessor</p>
+                            </div>
+                            <div class="d-flex">
+                                <p class="font-weight-bold" style="font-size:14px;">Login solicitante: </p>
+                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.Usuario.Login</p>
+                            </div>
+
+                            <div class="d-flex">
+                                <p class="font-weight-bold" style="font-size:14px;">Mensagem: </p>
+                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@Html.DisplayFor(modelItem => nomeAviso.Mensagem)</p>
+
+                            </div>
+                            <div class="d-flex">
+                                <a asp-action="Edit" asp-route-id="@nomeAviso.AvisosId" class="btn btn-sm btn-warning  font-weight-bold">Editar</a>
+                                <a class="btn btn-sm btn-danger ml-3 text-white ml-1 font-weight-bold" href="#" onclick="ExibirModal(@nomeAviso.AvisosId)">Excluir</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja prosseguir com a exclusão desse aviso?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary btnExcluir">Sim</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Não</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        function ExibirModal(id) {
+            $(".modal").modal();
+            $(".btnExcluir").on('click', function () {
+                $.ajax({
+                    url: "/Avisos/Delete",
+                    method: "POST",
+                    data: { id: id },
+                    success: function (data) {
+                        $(".modal").modal('hide');
+                        location.reload(true);
+                    }
+                });
+            });
+        }
+    </script>
 }
-    </tbody>
-</table>

@@ -1,16 +1,24 @@
 ﻿@model AgendamentoProjeto.Models.Disciplina
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
-
 @if (ViewBag.TemCargo == true)
 {
     <div class="alert alert-danger mt-2" style="height:45px;">
         <p><strong>Já existe uma disciplina com o nome inserido!</strong></p>
     </div>
 }
-<h4 class="mt-4 text-primary">Atualizar Curso</h4>
+<h4 class="mt-4 text-primary">Atualizar Disciplina</h4>
 <hr />
 
 <div class="row ">

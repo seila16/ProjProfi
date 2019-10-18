@@ -26,14 +26,24 @@ namespace AgendamentoProjeto.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Index(string Procurar)
+        public async Task<IActionResult> Index(string Procurar, string Tipo)
         {
-            if (!String.IsNullOrEmpty(Procurar))
+            if (!String.IsNullOrEmpty(Procurar) && !String.IsNullOrEmpty(Tipo))
             {
-                return View(await _context.Professor.Where(x => x.NomeProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+
+                if (Tipo == "nome")
+                {
+                    return View(await _context.Professor.Where(x => x.NomeProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+
+                }
+                else
+                {
+                    return View(await _context.Professor.Where(x => x.EmailProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+
+                }
             }
 
-            return View(await _context.Cursos.ToListAsync());
+            return View(await _context.Professor.ToListAsync());
         }
 
         // GET: Professors/Details/5

@@ -1,11 +1,19 @@
 ﻿@model AgendamentoProjeto.Models.Curso
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
 
-
-<h4 class="mt-4 text-primary">Adicionar Professor</h4>
+<h4 class="mt-4 text-primary">Adicionar Curso</h4>
 <hr />
 
 <div class="row ">

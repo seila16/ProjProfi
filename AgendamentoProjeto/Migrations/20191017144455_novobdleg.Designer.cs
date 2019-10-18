@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgendamentoProjeto.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20191014173932_agendamentoAviso")]
-    partial class agendamentoAviso
+    [Migration("20191017144455_novobdleg")]
+    partial class novobdleg
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,6 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AvisosId");
-
                     b.Property<DateTime>("DataAgendamento");
 
                     b.Property<int>("DisciplinaId");
@@ -42,8 +40,6 @@ namespace AgendamentoProjeto.Migrations
                     b.Property<int>("UsuarioId");
 
                     b.HasKey("AgendamentoId");
-
-                    b.HasIndex("AvisosId");
 
                     b.HasIndex("DisciplinaId");
 
@@ -64,11 +60,15 @@ namespace AgendamentoProjeto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AgendamentoId");
+
                     b.Property<string>("Mensagem")
                         .IsRequired()
                         .HasMaxLength(150);
 
                     b.HasKey("AvisosId");
+
+                    b.HasIndex("AgendamentoId");
 
                     b.ToTable("AGV_Aviso");
                 });
@@ -146,7 +146,9 @@ namespace AgendamentoProjeto.Migrations
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Laboratorio", b =>
                 {
-                    b.Property<int>("LaboratorioId");
+                    b.Property<int>("LaboratorioId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Hardware")
                         .IsRequired()
@@ -167,6 +169,8 @@ namespace AgendamentoProjeto.Migrations
                     b.Property<int?>("StatusId");
 
                     b.HasKey("LaboratorioId");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("AGV_Laboratorio");
 
@@ -243,6 +247,11 @@ namespace AgendamentoProjeto.Migrations
                         {
                             StatusId = 4,
                             NomeStatus = "Bloqueado"
+                        },
+                        new
+                        {
+                            StatusId = 5,
+                            NomeStatus = "Manutenção"
                         });
                 });
 
@@ -299,10 +308,6 @@ namespace AgendamentoProjeto.Migrations
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Agendamento", b =>
                 {
-                    b.HasOne("AgendamentoProjeto.Models.Aviso", "Avisos")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("AvisosId");
-
                     b.HasOne("AgendamentoProjeto.Models.Disciplina", "Disciplina")
                         .WithMany("Agendamentos")
                         .HasForeignKey("DisciplinaId")
@@ -328,12 +333,18 @@ namespace AgendamentoProjeto.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("AgendamentoProjeto.Models.Aviso", b =>
+                {
+                    b.HasOne("AgendamentoProjeto.Models.Agendamento", "Agendamento")
+                        .WithMany("Avisos")
+                        .HasForeignKey("AgendamentoId");
+                });
+
             modelBuilder.Entity("AgendamentoProjeto.Models.Laboratorio", b =>
                 {
                     b.HasOne("AgendamentoProjeto.Models.Status", "Status")
                         .WithMany("Laboratorios")
-                        .HasForeignKey("LaboratorioId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StatusId");
                 });
 
             modelBuilder.Entity("AgendamentoProjeto.Models.Usuario", b =>

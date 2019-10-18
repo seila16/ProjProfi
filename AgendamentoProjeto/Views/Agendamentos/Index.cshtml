@@ -1,7 +1,16 @@
 ﻿@model IEnumerable<AgendamentoProjeto.Models.Agendamento>
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
 
 
@@ -66,10 +75,10 @@
 
     </div>
 
-
+    <hr class="bg-info mt-5" />
 }
 
-<hr class="bg-info mt-5" />
+
 <div class="d-flex mt-5">
     <form asp-action="Index" method="post">
         <div class="input-group">
@@ -216,7 +225,7 @@
 
         function ExibirInputModal(AgendamentoId) {
             $("#modal2").modal();
-            $(".btnEnviar").on('click', function (){
+            $(".btnEnviar").on('click', function () {
                 var mensagem = $('#inputModal').val()
                 if (mensagem != null) {
                     $.ajax({

@@ -135,6 +135,7 @@ namespace AgendamentoProjeto.Controllers
             {
                 ViewBag.ErrorDatabase = error;
             }
+           
             List<string> listaDeAvisos = new List<string>();
             var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status);
             var avisos = _context.Aviso.Select(x => x);
@@ -156,6 +157,8 @@ namespace AgendamentoProjeto.Controllers
                 return View(await contexto.Where(x => x.DataAgendamento.ToShortDateString().Contains(DataFinal.ToShortDateString())).ToListAsync());
 
             }
+            var cargo = HttpContext.Session.GetString("Cargo");
+            ViewBag.cargo = cargo;
             var avisos1 = _context.Aviso.Select(x => x);
             ViewBag.Avisos = avisos1;
             return View(await _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a=>a.Status).ToListAsync());
@@ -170,7 +173,7 @@ namespace AgendamentoProjeto.Controllers
             ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor");
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "NomeUsuario");
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
-          
+           
             return View();
         }
 

@@ -40,39 +40,8 @@ namespace AgendamentoProjeto.Controllers
             }
             ViewBag.statusBd = _context.Status.Select(s => s.NomeStatus);
             ViewBag.quantidades = _context.Laboratorio.Select(l => l.QuantidadePcs);
-            return View(await _context.Usuarios.ToListAsync());
+            return View(await _context.Laboratorio.ToListAsync());
         }
-
-        [HttpPost]
-        public async Task<IActionResult> QuantidadePost(int quantidade)
-        {
-            if (quantidade != 0)
-            {
-                ViewBag.statusBd = _context.Status.Select(s => s.NomeStatus);
-                ViewBag.quantidades = _context.Laboratorio.Select(l => l.QuantidadePcs);
-                return View("Index",await _context.Laboratorio.Where(x => x.QuantidadePcs == quantidade).ToListAsync());
-            }
-            ViewBag.statusBd = _context.Status.Select(s => s.NomeStatus);
-            ViewBag.quantidades = _context.Laboratorio.Select(l => l.QuantidadePcs);
-            return View("Index", await _context.Usuarios.ToListAsync());
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ProjetorPost(string Projetor)
-        {
-            if (!String.IsNullOrEmpty(Projetor))
-            {
-                ViewBag.statusBd = _context.Status.Select(s => s.NomeStatus);
-                ViewBag.quantidades = _context.Laboratorio.Select(l => l.QuantidadePcs);
-                return View(await _context.Laboratorio.Where(x => x.Projetor == Convert.ToBoolean(Projetor)).ToListAsync());
-            }
-            ViewBag.statusBd = _context.Status.Select(s => s.NomeStatus);
-            ViewBag.quantidades = _context.Laboratorio.Select(l => l.QuantidadePcs);
-            return View(await _context.Usuarios.ToListAsync());
-        }
-
-
-
 
 
         // GET: Laboratorios/Details/5
@@ -94,7 +63,7 @@ namespace AgendamentoProjeto.Controllers
             return View(laboratorio);
         }
 
-        public IActionResult Manutencao(int id)
+        public async Task<IActionResult> Manutencao(int id)
         {
             var lab = _context.Laboratorio.Where(l => l.LaboratorioId == id).FirstOrDefault();
             try
@@ -102,7 +71,8 @@ namespace AgendamentoProjeto.Controllers
 
                 lab.StatusId = 5;
                 _context.Update(lab);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -115,15 +85,13 @@ namespace AgendamentoProjeto.Controllers
                     return View("Index");
                 }
             }
-            return RedirectToAction(nameof(Index));
-
-           
         }
 
         // GET: Laboratorios/Create
         public IActionResult Create()
         {
             ViewData["LaboratorioId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
             return View();
         }
 
@@ -132,11 +100,16 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LaboratorioId,NomeLaboratorio,Hardware,Software,QuantidadePcs,Projetor,StatusId,Status")] Laboratorio laboratorio)
+        public async Task<IActionResult> Create([Bind("LaboratorioId,NomeLaboratorio,Hardware,Software,QuantidadePcs,Projetor,StatusId")] Laboratorio laboratorio)
         {
 
-            laboratorio.LaboratorioId = _context.Laboratorio.Count() + 1;         
-
+            var temLaboratorio = _context.Laboratorio.Where(l => l.NomeLaboratorio == laboratorio.NomeLaboratorio).ToList();
+            if (temLaboratorio.Any())
+            {
+                ViewBag.error = "Nome do laboratório já consta no banco de dados.";
+                ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(laboratorio);
@@ -144,6 +117,7 @@ namespace AgendamentoProjeto.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["LaboratorioId"] = new SelectList(_context.Status, "StatusId", "NomeStatus", laboratorio.LaboratorioId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
             return View(laboratorio);
         }
 
@@ -161,6 +135,8 @@ namespace AgendamentoProjeto.Controllers
                 return NotFound();
             }
             ViewData["LaboratorioId"] = new SelectList(_context.Status, "StatusId", "NomeStatus", laboratorio.LaboratorioId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
+
             return View(laboratorio);
         }
 
@@ -174,6 +150,14 @@ namespace AgendamentoProjeto.Controllers
             if (id != laboratorio.LaboratorioId)
             {
                 return NotFound();
+            }
+
+            var temLaboratorio = _context.Laboratorio.Where(l => l.NomeLaboratorio == laboratorio.NomeLaboratorio).ToList();
+            if (temLaboratorio.Any())
+            {
+                ViewBag.error = "Nome do laboratório já consta no banco de dados.";
+                ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus");
+                return View("Edit");
             }
 
             if (ModelState.IsValid)

@@ -21,10 +21,23 @@ namespace AgendamentoProjeto.Controllers
         // GET: Avisos
         public async Task<IActionResult> Index()
         {
+            var agendamentos = _context.Agendamento.Select(a => a).Include(a=>a.Professor).Include(a=>a.Usuario).ToList();
+            ViewBag.Agendamentos = agendamentos;
             return View(await _context.Aviso.ToListAsync());
         }
 
-   
+        [HttpPost]
+        public async Task<IActionResult> Index(string Procurar)
+        {
+            if (!String.IsNullOrEmpty(Procurar))
+            {
+
+                return View(await _context.Aviso.Where(x => x.Mensagem.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+            }
+
+            return View(await _context.Aviso.ToListAsync());
+        }
+
         // GET: Avisos/Create
         public IActionResult Create(int AgendamentoId)
         {
@@ -70,6 +83,7 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
+            ViewBag.agendamentoId = aviso.AgendamentoId;
             ViewData["AvisosId"] = new SelectList(_context.Agendamento, "AgendamentoId", "AgendamentoId", aviso.AvisosId);
             return View(aviso);
         }
@@ -110,28 +124,10 @@ namespace AgendamentoProjeto.Controllers
             return View(aviso);
         }
 
-        // GET: Avisos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aviso = await _context.Aviso
-              .FirstOrDefaultAsync(m => m.AvisosId == id);
-            if (aviso == null)
-            {
-                return NotFound();
-            }
-
-            return View(aviso);
-        }
-
+       
         // POST: Avisos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             var aviso = await _context.Aviso.FindAsync(id);
             _context.Aviso.Remove(aviso);
