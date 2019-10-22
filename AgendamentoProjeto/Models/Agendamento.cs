@@ -15,6 +15,7 @@ namespace AgendamentoProjeto.Models
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Data de Agendamento")]
         public DateTime DataAgendamento { get; set; }
+        public DateTime DataFimAgendamento { get; set; }
         public int LaboratorioId { get; set; }
         public Laboratorio Laboratorio { get; set; }
         public int DisciplinaId { get; set; }

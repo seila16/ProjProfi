@@ -84,7 +84,7 @@ namespace AgendamentoProjeto.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SalvarSolicitacao([Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,ProfessorId")] Agendamento agendamento)
+        public async Task<IActionResult> SalvarSolicitacao([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,ProfessorId")] Agendamento agendamento)
         {
             var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
             if (temNaBaseMesmoHorario.Any())
@@ -182,7 +182,7 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
+        public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
             var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
             if (temNaBaseMesmoHorario.Any())
@@ -249,7 +249,7 @@ namespace AgendamentoProjeto.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AgendamentoId,DataAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
+        public async Task<IActionResult> Edit(int id, [Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
             if (id != agendamento.AgendamentoId)
             {
