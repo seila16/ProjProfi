@@ -185,15 +185,20 @@ namespace AgendamentoProjeto.Controllers
         public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
             var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
-            if (temNaBaseMesmoHorario.Any())
+            var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento).ToList();
+            var TemLabRepetido = _context.Agendamento.Where(c => c.LaboratorioId == agendamento.LaboratorioId).ToList();
+
+            if (temNaBaseMesmoHorario.Any() && temNaBaseMesmoHorarioFim.Any() && TemLabRepetido.Any())
             {
-                ViewBag.error = "Já existe um agendamento para a data e horário escolhida.";
+
+                ViewBag.error = "Já existe um agendamento para essa data e horário neste Laboratório";
                 ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
                 ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
                 ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
                 ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Email", agendamento.UsuarioId);
                 ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
                 return View();
+
             }
             if (agendamento.DataAgendamento < DateTime.Now)
             {
