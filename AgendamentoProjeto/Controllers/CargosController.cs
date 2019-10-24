@@ -110,7 +110,7 @@ namespace AgendamentoProjeto.Controllers
                 return NotFound();
             }
 
-            var temCargo = _context.Cargos.Where(x => x.NomeCargo == cargo.NomeCargo).ToList();
+            var temCargo = _context.Cargos.Where(x => x.NomeCargo == cargo.NomeCargo && x.CargoId != cargo.CargoId).ToList();
             if (temCargo.Count > 0)
             {
                 ViewBag.TemCargo = true;

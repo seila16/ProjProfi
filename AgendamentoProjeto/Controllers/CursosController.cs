@@ -114,8 +114,8 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var temCurso = _context.Cursos.Where(x => x.Nome == curso.Nome && x.CursoId != curso.CursoId).ToList();
+            if (ModelState.IsValid && temCurso.Count == 0)
             {
                 try
                 {
@@ -135,7 +135,14 @@ namespace AgendamentoProjeto.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(curso);
+            else
+            {
+                ViewBag.NomeRepetido = true;
+
+               
+
+                return View(curso);
+            }
         }
 
        

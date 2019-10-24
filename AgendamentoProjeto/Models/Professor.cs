@@ -17,6 +17,7 @@ namespace AgendamentoProjeto.Models
         [Display(Name = "Nome professor")]
         public string NomeProfessor { get; set; }
         [Required(ErrorMessage ="Campo obrigatório")]
+        [EmailAddress(ErrorMessage = "E-mail inválido")]
         public string EmailProfessor { get; set; }
 
         public ICollection<Agendamento> Agendamentos { get; set; }

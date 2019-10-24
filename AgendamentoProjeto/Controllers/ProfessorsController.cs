@@ -26,14 +26,24 @@ namespace AgendamentoProjeto.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Index(string Procurar)
+        public async Task<IActionResult> Index(string Procurar, string Tipo)
         {
-            if (!String.IsNullOrEmpty(Procurar))
+            if (!String.IsNullOrEmpty(Procurar) && !String.IsNullOrEmpty(Tipo))
             {
-                return View(await _context.Professor.Where(x => x.NomeProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+
+                if (Tipo == "nome")
+                {
+                    return View(await _context.Professor.Where(x => x.NomeProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+
+                }
+                else
+                {
+                    return View(await _context.Professor.Where(x => x.EmailProfessor.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+
+                }
             }
 
-            return View(await _context.Cursos.ToListAsync());
+            return View(await _context.Professor.ToListAsync());
         }
 
         // GET: Professors/Details/5
@@ -67,11 +77,16 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProfessorId,NomeProfessor,EmailProfessor")] Professor professor)
         {
-            if (ModelState.IsValid)
+            var temProfessorNaBase = _context.Professor.Where(p => p.NomeProfessor == professor.NomeProfessor || p.EmailProfessor == professor.EmailProfessor).ToList();
+            if (ModelState.IsValid && temProfessorNaBase.Count() == 0)
             {
                 _context.Add(professor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ViewBag.TemProfessor = "Já existe um professor com esse nome ou e-mail, favor escolha outro nome ou e-mail";
             }
             return View(professor);
         }
@@ -103,8 +118,9 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
+            var temProfessorNaBase = _context.Professor.Where(p => (p.NomeProfessor == professor.NomeProfessor || p.EmailProfessor == professor.EmailProfessor) && p.ProfessorId != professor.ProfessorId).ToList();
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && temProfessorNaBase.Count() == 0)
             {
                 try
                 {
@@ -123,6 +139,10 @@ namespace AgendamentoProjeto.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ViewBag.TemProfessor = "Já existe um professor com esse nome ou e-mail, favor escolha outro nome ou e-mail";
             }
             return View(professor);
         }

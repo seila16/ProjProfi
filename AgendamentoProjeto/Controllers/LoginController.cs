@@ -46,16 +46,26 @@ namespace AgendamentoProjeto.Controllers
         {
             ViewData["CargoId"] = new SelectList(_contexto.Cargos, "CargoId", "NomeCargo");
             //var login = from user in _contexto.Usuarios where user.Login == usuario.Login && user.Senha == usuario.Senha && user.CargoId == usuario.CargoId && usuario.StatusId == 1 select user;
-            var login = _contexto.Usuarios.Where(u => u.Login == usuario.Login && u.Senha == usuario.Senha && u.CargoId == usuario.CargoId && u.StatusId == 1).ToList();
+            var login = _contexto.Usuarios.Where(u => u.Login == usuario.Login && u.Senha == usuario.Senha && u.CargoId == usuario.CargoId && u.StatusId == 1).Include(u=>u.Cargo).ToList();
      
             if (login.Any())
             {
                 var x = login.Select(a=>a.UsuarioId).FirstOrDefault();
                 var y = login.Select(a => a.Email).FirstOrDefault();
+                var z = login.Select(a => a.Cargo.NomeCargo).FirstOrDefault();
                 HttpContext.Session.SetInt32("usuarioIdLogado", x);
                 HttpContext.Session.SetString("LoginLogado", usuario.Login);
                 HttpContext.Session.SetString("EmailLogado", y);
-                return RedirectToAction("Index", "Agendamentos");
+                HttpContext.Session.SetString("Cargo", z);
+                if (z == "T.I")
+                {
+                    return RedirectToAction("Index", "Agendamentos");
+                }
+                else
+                {
+                    return RedirectToAction("MeusAgendamentos", "Agendamentos");
+                }
+                
             }
             else
             {
@@ -69,6 +79,7 @@ namespace AgendamentoProjeto.Controllers
         public IActionResult GerarSenha()
         {
             ViewData["CargoId"] = new SelectList(_contexto.Cargos, "CargoId", "NomeCargo");
+            ViewData["CursoId"] = new SelectList(_contexto.Cursos, "CursoId", "Nome");
             return View();
         }
 
@@ -143,10 +154,16 @@ namespace AgendamentoProjeto.Controllers
           
         }
 
+        public IActionResult Sair()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Logar");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnviarSolic([Bind("UsuarioId,Login,Senha,Email,NomeUsuario,CargoId")] Usuario usuario)
+        public async Task<IActionResult> EnviarSolic([Bind("UsuarioId,Login,Senha,Email,CursoId,NomeUsuario,CargoId")] Usuario usuario)
         {
             try
             {

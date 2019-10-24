@@ -90,7 +90,7 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-
+           
             var disciplina = await _context.Disciplina.FindAsync(id);
             if (disciplina == null)
             {
@@ -110,8 +110,8 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var temDisciplina = _context.Disciplina.Where(x => x.NomeDisciplina == disciplina.NomeDisciplina && x.DisciplinaId != disciplina.DisciplinaId).ToList();
+            if (ModelState.IsValid && temDisciplina.Count == 0)
             {
                 try
                 {
@@ -131,7 +131,12 @@ namespace AgendamentoProjeto.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(disciplina);
+            else
+            {
+                ViewBag.TemDisciplina = true;
+                return View(disciplina);
+            }
+            
         }
 
         

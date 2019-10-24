@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<AgendamentoProjeto.Models.Professor>
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
-
 <h1 style="text-align:center;font-weight:bold;font-size:30px;" class="mt-3 text-primary">Professores</h1>
 
 <br />
@@ -13,11 +21,19 @@
     <form asp-action="Index" method="post">
         <div class="input-group">
             <input class="form-control py-2" type="search" name="Procurar" placeholder="Pesquisar por Nome..." id="example-search-input">
+
             <span class="input-group-append">
                 <button class="btn btn-outline-info" type="submit">
                     <i class="fa fa-search"></i>
                 </button>
             </span>
+            <div class="ml-4">
+                @Html.RadioButton("Tipo", "email") <span>Email</span>
+            </div>
+            <div class="ml-2">
+                @Html.RadioButton("Tipo", "nome") <span>Nome</span>
+
+            </div>
         </div>
     </form>
 
@@ -26,7 +42,7 @@
     </div>
 </div>
 
-        
+
 
 
 <div class="row mt-5">
@@ -35,7 +51,16 @@
         <div class="col-sm-4 mt-3 ">
             <div class="card bg-light">
                 <div class="card-body border rounded border-primary">
-                    <h5 class="card-title text-primary">@Html.DisplayFor(modelItem => item.NomeProfessor)<br /> @Html.DisplayFor(modelItem => item.EmailProfessor)</h5>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Nome: </p>
+
+                        <p class=" text-primary font-weight-bold ml-2">@Html.DisplayFor(modelItem => item.NomeProfessor)</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">E-mail: </p>
+                        <p class=" text-primary font-weight-bold ml-2">@Html.DisplayFor(modelItem => item.EmailProfessor)</p>
+
+                    </div>
                     <div class="d-flex">
                         <a asp-action="Edit" asp-route-id="@item.ProfessorId" class="btn btn-sm btn-warning  font-weight-bold">Editar</a>
                         <a class="btn btn-sm btn-danger ml-3 text-white ml-1 font-weight-bold" href="#" onclick="ExibirModal(@item.ProfessorId)">Excluir</a>
@@ -77,7 +102,7 @@
             $(".modal").modal();
             $(".btnExcluir").on('click', function () {
                 $.ajax({
-                    url:"/Professors/Delete",
+                    url: "/Professors/Delete",
                     method: "POST",
                     data: { id: id },
                     success: function (data) {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AgendamentoProjeto.Migrations
 {
-    public partial class newbd : Migration
+    public partial class novobdleg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -78,7 +78,8 @@ namespace AgendamentoProjeto.Migrations
                 name: "AGV_Laboratorio",
                 columns: table => new
                 {
-                    LaboratorioId = table.Column<int>(nullable: false),
+                    LaboratorioId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NomeLaboratorio = table.Column<string>(maxLength: 30, nullable: false),
                     Hardware = table.Column<string>(maxLength: 150, nullable: false),
                     Software = table.Column<string>(maxLength: 150, nullable: false),
@@ -90,11 +91,11 @@ namespace AgendamentoProjeto.Migrations
                 {
                     table.PrimaryKey("PK_AGV_Laboratorio", x => x.LaboratorioId);
                     table.ForeignKey(
-                        name: "FK_AGV_Laboratorio_AGV_Status_LaboratorioId",
-                        column: x => x.LaboratorioId,
+                        name: "FK_AGV_Laboratorio_AGV_Status_StatusId",
+                        column: x => x.StatusId,
                         principalTable: "AGV_Status",
                         principalColumn: "StatusId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +235,8 @@ namespace AgendamentoProjeto.Migrations
                     { 1, "Disponível" },
                     { 2, "Pendente" },
                     { 3, "Cancelado" },
-                    { 4, "Bloqueado" }
+                    { 4, "Bloqueado" },
+                    { 5, "Manutenção" }
                 });
 
             migrationBuilder.InsertData(
@@ -276,6 +278,11 @@ namespace AgendamentoProjeto.Migrations
                 name: "IX_AGV_Aviso_AgendamentoId",
                 table: "AGV_Aviso",
                 column: "AgendamentoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AGV_Laboratorio_StatusId",
+                table: "AGV_Laboratorio",
+                column: "StatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AGV_Usuario_CargoId",

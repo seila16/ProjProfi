@@ -32,7 +32,7 @@ namespace AgendamentoProjeto
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<Contexto>(opcoes => opcoes.UseSqlServer(Configuration.GetConnectionString("Conexao")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

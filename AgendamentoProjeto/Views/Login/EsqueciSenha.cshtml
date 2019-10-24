@@ -21,8 +21,13 @@
             <p>Email ou Login inválidos, favor verifique e tente novamente!</p>
         </div>
     }
-    <div id="divLogin" class="rounded shadow-lg mt-5">
-        <h2 id="TitleSolic">Esqueci minha senha</h2>
+
+    <div class="backgroundImage">
+        <img src="~/img/imagefundo.jpg" class="w-100 h-100" />
+    </div>
+
+    <div id="divLogin" class="rounded shadow-lg mt-5 w-50 card" style="margin-left: auto;margin-right: auto;margin-top:100px;">
+        <h2 id="TitleSolic" class="text-primary text-center">Esqueci minha senha</h2>
         <form asp-action="GerarCodigo">
             <div class=" p-4">
                 <input asp-for="Login" name="Login" class="form-control" placeholder="Login" />
@@ -36,7 +41,7 @@
                 <div class="col-md-6 text-center">
                     <input type="submit" value="Enviar" class="btn btn-info text-center" />
                 </div>
-                <div class="col-md-6 text-center">
+                <div class="col-md-6 text-center mb-4">
                     <a href="@Url.Action("Logar")" class="btn btn-info text-center">Voltar</a>
                 </div>
             </div>

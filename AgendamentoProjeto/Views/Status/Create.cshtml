@@ -1,9 +1,17 @@
 ﻿@model AgendamentoProjeto.Models.Status
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
-
 <h1>Create</h1>
 
 <h4>Status</h4>

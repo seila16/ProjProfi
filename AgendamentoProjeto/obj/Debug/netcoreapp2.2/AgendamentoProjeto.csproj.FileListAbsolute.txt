@@ -316,7 +316,6 @@ E:\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Lo
 E:\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Login\ValidarCodigo.g.cshtml.cs
 C:\Users\thigg\source\repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Login\GerarCodigo.g.cshtml.cs
 C:\Users\thigg\source\repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Login\ValidarCodigo.g.cshtml.cs
-C:\Users\thigg\source\repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csprojAssemblyReference.cache
 E:\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LayoutCoordenador.g.cshtml.cs
 C:\Users\thigg\source\repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LayoutCoordenador.g.cshtml.cs
 C:\Users\J130075\Desktop\ProjProfi\AgendamentoProjeto\bin\Debug\netcoreapp2.2\AgendamentoProjeto.deps.json
@@ -806,3 +805,7 @@ C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\n
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\SolicitarAgendamento.cshtml.g.cs
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\MeusAgendamentos.cshtml.g.cs
 C:\Users\J130075\Desktop\haha\ProjProfi\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\DashBoardAgendamentos.cshtml.g.cs
+C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\DashBoardAgendamentos.g.cshtml.cs
+C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\MeusAgendamentos.g.cshtml.cs
+C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\Razor\Views\Agendamentos\SolicitarAgendamento.g.cshtml.cs
+C:\Users\thigg\Source\Repos\ProjProfi\AgendamentoProjeto\obj\Debug\netcoreapp2.2\AgendamentoProjeto.csprojAssemblyReference.cache
