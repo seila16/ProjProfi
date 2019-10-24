@@ -51,8 +51,14 @@
                 <input type="password" asp-for="Senha" class="form-control" placeholder="Confirmar Senha" />
                 <span asp-validation-for="Senha" class="text-danger"></span>
             </div>
+
             <hr />
             <div class="pt-2">
+                <label  class="control-label text-center">Curso</label>
+                <select asp-for="CursoId" class="form-control" asp-items="ViewBag.CursoId"></select>
+            </div>
+            <div class="pt-2">
+                <label  class="control-label text-center">Cargo</label>
                 <select asp-for="CargoId" class="form-control" asp-items="ViewBag.CargoId"></select>
             </div>
             <div class="row pt-2">

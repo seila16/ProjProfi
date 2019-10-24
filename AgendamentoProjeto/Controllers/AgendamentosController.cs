@@ -15,7 +15,6 @@ namespace AgendamentoProjeto.Controllers
     public class AgendamentosController : Controller
     {
         private readonly Contexto _context;
-
         public AgendamentosController(Contexto context)
         {
             _context = context;
@@ -24,6 +23,8 @@ namespace AgendamentoProjeto.Controllers
         public async Task<IActionResult> Aprovar(int AgendamentoId)
         {
             var ag = await _context.Agendamento.FindAsync(AgendamentoId);
+            string email = _context.Usuarios.Where(u => u.UsuarioId == ag.UsuarioId).Select(u => u.Email).FirstOrDefault();
+
             var disciplina =  _context.Disciplina.Where(d => d.DisciplinaId == ag.DisciplinaId).Select(d => d.NomeDisciplina).FirstOrDefault();
             var professor = _context.Professor.Where(p => p.ProfessorId == ag.ProfessorId).Select(p => p.NomeProfessor).FirstOrDefault();
             if (ag == null)
@@ -43,17 +44,34 @@ namespace AgendamentoProjeto.Controllers
         public async Task<IActionResult> Reprovar(int AgendamentoId, string mensagem)
         {
             var ag = await _context.Agendamento.FindAsync(AgendamentoId);
+            var avisos =  _context.Aviso.Where(b => b.AgendamentoId == AgendamentoId).Select(b => b).FirstOrDefault();
+            
             var disciplina = _context.Disciplina.Where(d => d.DisciplinaId == ag.DisciplinaId).Select(d => d.NomeDisciplina).FirstOrDefault();
             var professor = _context.Professor.Where(p => p.ProfessorId == ag.ProfessorId).Select(p => p.NomeProfessor).FirstOrDefault();
+            string email = _context.Usuarios.Where(u => u.UsuarioId == ag.UsuarioId).Select(u => u.Email).FirstOrDefault();
             if (ag == null)
             {
                 return NotFound();
             }
-            ag.StatusId = 4;
-            _context.Agendamento.Remove(ag);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (avisos!=null)
+                {
+                    _context.Aviso.Remove(avisos);
+                    await _context.SaveChangesAsync();
+                }
+               
+                _context.Agendamento.Remove(ag);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
             EnvioEmail ee = new EnvioEmail();
-            string emailLog = HttpContext.Session.GetString("EmailLogado");
+            string emailLog = email;
             ee.EnvioDeEmail(emailLog, "Caro coordenador, seu agendamento com a data de " + ag.DataAgendamento.ToShortDateString() + " e horário " + ag.DataAgendamento.ToShortTimeString() + " da disciplina " + disciplina + " e ministrada pelo professor " + professor + " foi reprovada, motivo: " + mensagem, "Reprovação de agendamento");
             return RedirectToAction("Index");
         }
@@ -86,10 +104,10 @@ namespace AgendamentoProjeto.Controllers
 
         public async Task<IActionResult> SalvarSolicitacao([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,ProfessorId")] Agendamento agendamento)
         {
-            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
+            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => (a.DataAgendamento <= agendamento.DataAgendamento && a.DataFimAgendamento >= agendamento.DataFimAgendamento) && a.LaboratorioId == agendamento.LaboratorioId).ToList();
             if (temNaBaseMesmoHorario.Any())
             {
-                ViewBag.error = "Já existe um agendamento para a data e horário escolhida.";
+                ViewBag.error = "Horários conflitantes com outro agendamento, favor altere os horarios e tente novamente.";
                 ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
                 ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
                 ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
@@ -115,7 +133,7 @@ namespace AgendamentoProjeto.Controllers
             agendamento.StatusId = 2;
             _context.Add(agendamento);
             await _context.SaveChangesAsync();
-            return View("SolicitarAgendamento");
+            return RedirectToAction("MeusAgendamentos");
         }
 
         public IActionResult MeusAgendamentos()
@@ -131,6 +149,8 @@ namespace AgendamentoProjeto.Controllers
         // GET: Agendamentos
         public async Task<IActionResult> Index(string error)
         {
+
+            
             if (error != null)
             {
                 ViewBag.ErrorDatabase = error;
@@ -142,6 +162,7 @@ namespace AgendamentoProjeto.Controllers
             ViewBag.AgendamentosPendentes = _context.Agendamento.Where(a => a.StatusId == 2).Select(a=>a);
             ViewBag.Contagem = _context.Agendamento.Where(a => a.StatusId == 2).Count();
             ViewBag.Avisos = avisos;
+          
             return View(await contexto.ToListAsync());
         }
 
@@ -184,14 +205,13 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
-            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
-            var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento).ToList();
-            var TemLabRepetido = _context.Agendamento.Where(c => c.LaboratorioId == agendamento.LaboratorioId).ToList();
+            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => (a.DataAgendamento <= agendamento.DataAgendamento && a.DataFimAgendamento >= agendamento.DataFimAgendamento) && a.LaboratorioId == agendamento.LaboratorioId).ToList();
+           // var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento && b.LaboratorioId ==  agendamento.LaboratorioId).ToList();
 
-            if (temNaBaseMesmoHorario.Any() && temNaBaseMesmoHorarioFim.Any() && TemLabRepetido.Any())
+            if (temNaBaseMesmoHorario.Any())
             {
 
-                ViewBag.error = "Já existe um agendamento para essa data e horário neste Laboratório";
+                ViewBag.error = "Horários conflitantes com outro agendamento, favor altere os horarios e tente novamente";
                 ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
                 ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
                 ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
@@ -200,10 +220,10 @@ namespace AgendamentoProjeto.Controllers
                 return View();
 
             }
-            if (agendamento.DataAgendamento < DateTime.Now)
+            if (agendamento.DataAgendamento < DateTime.Now || agendamento.DataFimAgendamento < agendamento.DataAgendamento || agendamento.DataFimAgendamento < DateTime.Now)
             {
 
-                ViewBag.error = "Data ou horário anterior a data atual, favor seleciona outra data ou horário.";
+                ViewBag.error = "Data ou horário anterior a data atual ou ao horario inicial, favor selecione outra data ou horário.";
                 ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
                 ViewData["LaboratorioId"] = new SelectList(_context.Set<Laboratorio>(), "LaboratorioId", "NomeLaboratorio", agendamento.LaboratorioId);
                 ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "ProfessorId", "NomeProfessor", agendamento.ProfessorId);
@@ -233,7 +253,10 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
+            if (true)
+            {
 
+            }
             var agendamento = await _context.Agendamento.FindAsync(id);
             if (agendamento == null)
             {
@@ -260,9 +283,10 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-
-            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento).ToList();
-            if (temNaBaseMesmoHorario.Any())
+            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento && a.AgendamentoId != agendamento.AgendamentoId).ToList();
+            var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento && b.AgendamentoId != agendamento.AgendamentoId).ToList();
+     
+            if (temNaBaseMesmoHorario.Any() || temNaBaseMesmoHorarioFim.Any())
             {
                 ViewBag.error = "Já existe um agendamento para a data e horário escolhida.";
                 ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "DisciplinaId", "NomeDisciplina", agendamento.DisciplinaId);
@@ -318,6 +342,14 @@ namespace AgendamentoProjeto.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var agendamento = await _context.Agendamento.FindAsync(id);
+            var avisos = _context.Aviso.Select(a => a).ToList();
+            foreach(var av in avisos)
+            {
+                if (av.AgendamentoId == agendamento.AgendamentoId)
+                {
+                    return Json(new { message = "error" });
+                }
+            }
             _context.Agendamento.Remove(agendamento);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

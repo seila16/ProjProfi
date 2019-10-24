@@ -32,20 +32,25 @@
         <div class="row" style="align-items:center;">
             @foreach (var ag in ViewBag.AgendamentosPendentes)
             {
+
                 <div class="col-sm-4 mt-3 ">
                     <div class="card bg-light">
                         <div class="card-body border rounded border-primary">
+                                <span style="height:30px;margin-left:100px; font-size:large; margin-bottom:15px" class="badge badge-warning">Pendente</span>
                             <div class="d-flex">
                                 <p class="font-weight-bold" style="font-size:14px;">Data: </p>
                                 <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.DataAgendamento.ToShortDateString() - @ag.DataAgendamento.ToShortTimeString()</p>
-
-                                <p class="font-weight-bold" style="font-size:14px;">DataFim: </p>
-                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.DataFim.ToShortDateString() - @ag.DataFim.ToShortTimeString()</p>
-
-                                <span style="height:20px;margin-left:60px;" class="badge badge-warning">Pendente</span>
-
-
                             </div>
+
+
+
+
+                            <div class="d-flex">
+                                <p class="font-weight-bold" style="font-size:14px;">DataFim: </p>
+                                <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.DataFimAgendamento.ToShortDateString() - @ag.DataFimAgendamento.ToShortTimeString()</p>
+                            </div>
+
+
                             <div class="d-flex">
                                 <p class="font-weight-bold" style="font-size:14px;">Laboratório: </p>
                                 <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.Laboratorio.NomeLaboratorio</p>
@@ -62,11 +67,14 @@
                                 <p class="font-weight-bold" style="font-size:14px;">Login solicitante: </p>
                                 <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@ag.Usuario.Login</p>
                             </div>
+                        
+                        <div class="d-flex ">
                             <div class="d-flex ">
                                 <a href="@Url.Action("Aprovar", "Agendamentos", new { ag.AgendamentoId })" class="btn btn-success btn-sm  font-weight-bold">Aprovar</a>
 
                                 <a href="#" onclick="ExibirInputModal(@ag.AgendamentoId)" style="margin-left:2px;" class="btn btn-sm btn-danger ml-3 font-weight-bold text-white">Reprovar</a>
                             </div>
+                        </div>
 
                         </div>
                     </div>
@@ -232,9 +240,13 @@
                     url: "/Agendamentos/Delete",
                     method: "POST",
                     data: { id: id },
-                    success: function (data) {
+                    success: function (result) {
                         $(".modal").modal('hide');
-                        location.reload(true);
+                        if (result.message == 'error') {
+                            alert('Agendamento tem um aviso anexado, favor apague o aviso para a exclusão do agendamento possa ser concluída.')
+                        }
+                            location.reload(true);
+                        //alert(result.message)
                     }
                 });
             });
@@ -252,6 +264,7 @@
                         success: function (data) {
                             $(".modal").modal('hide');
                             location.reload(true);
+                         
                         }
                     });
                 } else {

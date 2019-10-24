@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AgendamentoProjeto.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace AgendamentoProjeto.Controllers
 {
@@ -61,8 +62,15 @@ namespace AgendamentoProjeto.Controllers
                 _context.Add(aviso);
                 await _context.SaveChangesAsync();
 
+                if (HttpContext.Session.GetString("Cargo") == "Coordenador")
+                {
+                    return RedirectToAction("MeusAgendamentos", "Agendamentos");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Agendamentos");
 
-                return RedirectToAction("Index", "Agendamentos");
+                }
             }
 
             // ViewData["agendamentoId"] = aviso.AgendamentoId;

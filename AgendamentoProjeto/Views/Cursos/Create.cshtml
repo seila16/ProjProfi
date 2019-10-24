@@ -12,7 +12,12 @@
         Layout = "_LayoutCoordenador";
     }
 }
-
+@if (ViewBag.NomeRepetido == true)
+{
+    <div class="alert alert-danger mt-2" style="height:45px;">
+        <p><strong>Já existe um curso com o nome inserido!</strong></p>
+    </div>
+}
 <h4 class="mt-4 text-primary">Adicionar Curso</h4>
 <hr />
 

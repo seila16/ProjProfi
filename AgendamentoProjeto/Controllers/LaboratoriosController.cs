@@ -152,7 +152,7 @@ namespace AgendamentoProjeto.Controllers
                 return NotFound();
             }
 
-            var temLaboratorio = _context.Laboratorio.Where(l => l.NomeLaboratorio == laboratorio.NomeLaboratorio).ToList();
+            var temLaboratorio = _context.Laboratorio.Where(l => l.NomeLaboratorio == laboratorio.NomeLaboratorio && l.LaboratorioId != laboratorio.LaboratorioId).ToList();
             if (temLaboratorio.Any())
             {
                 ViewBag.error = "Nome do laboratório já consta no banco de dados.";

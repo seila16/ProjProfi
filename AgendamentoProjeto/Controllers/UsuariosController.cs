@@ -172,33 +172,37 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-
-            if (id == usuario.UsuarioId)
+            var temEmail = _context.Usuarios.Where(x => x.Email == usuario.Email && x.UsuarioId != usuario.UsuarioId).ToList();
+            var temLogin = _context.Usuarios.Where(x => x.Login == usuario.Login && x.UsuarioId != usuario.UsuarioId).ToList();
+            if (id == usuario.UsuarioId && temEmail.Count == 0)
             {
-                try
+                 if (temLogin.Count == 0)
                 {
-                    string pass = _context.Usuarios.Where(x=>x.Email == usuario.Email).Select(x=>x.Senha).FirstOrDefault();
+                    string pass = _context.Usuarios.Where(x => x.Login == usuario.Login).Select(x => x.Senha).FirstOrDefault();
                     usuario.Senha = pass;
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!UsuarioExists(usuario.UsuarioId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                    ViewBag.LoginRepetido = true;
+                    ViewData["CargoId"] = new SelectList(_context.Cargos, "CargoId", "NomeCargo", usuario.CargoId);
+                    ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", usuario.CursoId);
+                    ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus", usuario.StatusId);
+                    return View(usuario);
+
+
+                }           
             }
-            ViewData["CargoId"] = new SelectList(_context.Cargos, "CargoId", "NomeCargo", usuario.CargoId);
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", usuario.CursoId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus", usuario.StatusId);
-            return View(usuario);
+            else
+            {
+                ViewBag.EmailRepetido = true;
+                ViewData["CargoId"] = new SelectList(_context.Cargos, "CargoId", "NomeCargo", usuario.CargoId);
+                ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", usuario.CursoId);
+                ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "NomeStatus", usuario.StatusId);
+                return View(usuario);
+            }
+            return RedirectToAction("Index");
         }
 
        

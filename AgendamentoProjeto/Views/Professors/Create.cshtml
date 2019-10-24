@@ -12,10 +12,10 @@
         Layout = "_LayoutCoordenador";
     }
 }
-@if (ViewBag.TemCargo == true)
+@if (ViewBag.TemProfessor != null)
 {
     <div class="alert alert-danger mt-2" style="height:45px;">
-        <p><strong>Já existe um professor com o nome inserido!</strong></p>
+        <p><strong>@ViewBag.TemProfessor!</strong></p>
     </div>
 }
 

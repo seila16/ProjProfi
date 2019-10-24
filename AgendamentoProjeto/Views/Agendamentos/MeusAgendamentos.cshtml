@@ -22,7 +22,7 @@
             <div class="card bg-light">
                 <div class="card-body border rounded border-primary">
                     <div class="d-flex">
-                        <p class="font-weight-bold" style="font-size:14px;">Data: </p>
+                        <p class="font-weight-bold" style="font-size:14px;">início: </p>
                         <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.DataAgendamento.ToShortDateString() - @nomeC.DataAgendamento.ToShortTimeString()</p>
                         @if (nomeC.Status.NomeStatus == "Disponível")
                         {
@@ -41,6 +41,10 @@
                         {
                             <span style="height:20px;margin-left:60px;" class="badge badge-warning">Pendente</span>
                         }
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold" style="font-size:14px;">Fim: </p>
+                        <p class="text-primary font-weight-bold ml-2" style="font-size:14px;">@nomeC.DataFimAgendamento</p>
                     </div>
                     <div class="d-flex">
                         <p class="font-weight-bold" style="font-size:14px;">Laboratório: </p>

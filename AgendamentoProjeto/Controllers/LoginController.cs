@@ -79,6 +79,7 @@ namespace AgendamentoProjeto.Controllers
         public IActionResult GerarSenha()
         {
             ViewData["CargoId"] = new SelectList(_contexto.Cargos, "CargoId", "NomeCargo");
+            ViewData["CursoId"] = new SelectList(_contexto.Cursos, "CursoId", "Nome");
             return View();
         }
 
@@ -162,7 +163,7 @@ namespace AgendamentoProjeto.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnviarSolic([Bind("UsuarioId,Login,Senha,Email,NomeUsuario,CargoId")] Usuario usuario)
+        public async Task<IActionResult> EnviarSolic([Bind("UsuarioId,Login,Senha,Email,CursoId,NomeUsuario,CargoId")] Usuario usuario)
         {
             try
             {
