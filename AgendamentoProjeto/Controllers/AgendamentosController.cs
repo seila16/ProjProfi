@@ -205,10 +205,10 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,UsuarioId,ProfessorId,StatusId")] Agendamento agendamento)
         {
-            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => (a.DataAgendamento <= agendamento.DataAgendamento && a.DataFimAgendamento >= agendamento.DataFimAgendamento) && a.LaboratorioId == agendamento.LaboratorioId).ToList();
+           // var temNaBaseMesmoHorario = _context.Agendamento.Where(a => (a.DataAgendamento <= agendamento.DataAgendamento && a.DataFimAgendamento >= agendamento.DataFimAgendamento) && a.LaboratorioId == agendamento.LaboratorioId).ToList();
            // var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento && b.LaboratorioId ==  agendamento.LaboratorioId).ToList();
 
-            if (temNaBaseMesmoHorario.Any())
+            if (await HorarioValido(agendamento) == false)
             {
 
                 ViewBag.error = "Horários conflitantes com outro agendamento, favor altere os horarios e tente novamente";
@@ -244,6 +244,52 @@ namespace AgendamentoProjeto.Controllers
             ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "StatusId", "NomeStatus");
 
             return View(agendamento);
+        }
+
+        private async Task<bool> HorarioValido(Agendamento agendamento)
+        {
+            if ( !await InicioValido(agendamento))
+            {
+                ViewBag.erro = "O horário de inicio do agendamento está em conflito com outro agendamento" ;
+
+                return false;
+            }
+            if (!await FinalValido(agendamento))
+            {
+                ViewBag.erro = "O horário de fim do agendamento está em conflito com outro agendamento";
+
+                return false;
+            }
+
+
+
+            return true;
+        }
+
+        
+
+        private async Task<bool> InicioValido(Agendamento agendamento)
+        {
+             var  HoraInicio = await _context.Agendamento.Where(a => a.DataAgendamento < agendamento.DataAgendamento && a.LaboratorioId == agendamento.LaboratorioId).ToListAsync();
+
+            if ( !HoraInicio.Any())
+            {
+                return true;
+            }
+
+             return false;
+        }
+
+        private async Task<bool> FinalValido(Agendamento agendamento)
+        {
+            var HoraFinal = await _context.Agendamento.Where(a => a.DataFimAgendamento > agendamento.DataFimAgendamento && a.LaboratorioId == agendamento.LaboratorioId).ToListAsync();
+
+            if ( !HoraFinal.Any())
+            {
+                return  true;
+            }
+
+             return false;
         }
 
         // GET: Agendamentos/Edit/5
