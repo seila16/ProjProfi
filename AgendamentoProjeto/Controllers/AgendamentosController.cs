@@ -283,8 +283,8 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento && a.AgendamentoId != agendamento.AgendamentoId).ToList();
-            var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento && b.AgendamentoId != agendamento.AgendamentoId).ToList();
+            var temNaBaseMesmoHorario = _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento && a.AgendamentoId != agendamento.AgendamentoId && a.LaboratorioId == agendamento.LaboratorioId).ToList();
+            var temNaBaseMesmoHorarioFim = _context.Agendamento.Where(b => b.DataFimAgendamento == agendamento.DataFimAgendamento && b.AgendamentoId != agendamento.AgendamentoId && b.LaboratorioId == agendamento.LaboratorioId).ToList();
      
             if (temNaBaseMesmoHorario.Any() || temNaBaseMesmoHorarioFim.Any())
             {
