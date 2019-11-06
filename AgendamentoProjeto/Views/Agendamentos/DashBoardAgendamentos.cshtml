@@ -1,31 +1,117 @@
 ﻿
+@model IEnumerable<AgendamentoProjeto.Models.Agendamento>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "DashBoardAgendamentos";
+    ViewData["Title"] = "Index";
+    if (HttpContextAccessor.HttpContext.Session.GetString("Cargo") == "T.I")
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutCoordenador";
+    }
 }
 
-    <div style=" display: flex;justify-content: center;" class="mt-3">
-        <h3 class="text-primary">Agendamentos de hoje</h3>
+@if (ViewBag.errorData != null)
+{
+    <div class="alert alert-danger mt-3">
+        <p><strong>@ViewBag.errorData</strong></p>
     </div>
+}
+<div style=" display: flex;justify-content: center;" class="mt-3">
+    <h3 class="text-primary">Dashboard de agendamentos</h3>
+</div>
 
+
+<div style="margin-left: auto;margin-right: auto;" class="mt-5">
+    <p class="text-primary text-center font-weight-bold">Selecione uma data</p>
+    <div>
+        <form asp-action="DashBoardAgendamentos" method="post">
+            <div class="d-flex">
+                <input type="date" class="form-control" name="Procurar" style="width:200px;margin-left:auto" />
+                <input type="submit" class="btn btn-sm btn-success ml-3" value="Pesquisar" style="margin-right:auto;" />
+            </div>
+
+        </form>
+    </div>
+</div>
 
 <div class="container mt-5">
-    @foreach (var ag in ViewBag.agendamentos)
+    <hr class="bg-primary" />
+    @if (Model.Count() == 0)
     {
-    <div class="row row-striped">
-        <div class="col-2 text-right">
-            <h1 class="display-4"><span class="badge badge-primary">@ag.DataAgendamento.Day</span></h1>
-            <h2 class="mr-2">@ag.DataAgendamento.ToString("MMM").ToUpper()</h2>
+        <div class="alert alert-info mt-3">
+            <p><strong>Não existem agendamentos para hoje.</strong></p>
         </div>
-        <div class="col-10">
-            <h4 class="text-primary ml-3"><strong>Professor: @ag.Professor.NomeProfessor</strong></h4>
-            <ul class="list-inline">
-                <li class="list-inline-item"><i class="fa fa-calendar " aria-hidden="true"></i> @ag.DataAgendamento.ToString("dddd")</li>
-                <li class="list-inline-item"><i class="fa fa-clock" aria-hidden="true"></i> @ag.DataAgendamento.ToShortTimeString()</li>
-                <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Cafe</li>
-            </ul>
-        </div>
-    </div>
-    <hr class="bg-primary"/>
+    }
+    else
+    {
+        @foreach (var ag in Model)
+        {
+            <div class="row ">
+                <div class="col-2 text-right">
+                    <h1 class="display-4 mr-3"><span class="badge badge-primary">@ag.DataAgendamento.Day</span></h1>
+                    <h2 class="mr-2">@ag.DataAgendamento.ToString("MMM").ToUpper()</h2>
+                </div>
+                <div class="col-10">
+                    <h4 class="text-primary ml-3"><strong>Professor: @ag.Professor.NomeProfessor</strong></h4>
+                    <h6 class="text-primary ml-3"><strong>Disciplina: @ag.Disciplina.NomeDisciplina</strong></h6>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fa fa-calendar " aria-hidden="true"></i> @ag.DataAgendamento.ToString("dddd")</li>
+                        <li class="list-inline-item"><i class="fa fa-clock" aria-hidden="true"></i> @ag.DataAgendamento.ToShortTimeString()</li>
+                        <li class="list-inline-item"><i class="fa fa-clock" aria-hidden="true"></i> @ag.DataFimAgendamento.ToShortTimeString()</li>
+                        <li class="list-inline-item"><i class="fa fa-desktop" aria-hidden="true"></i> @ag.Laboratorio.NomeLaboratorio</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="bg-primary" />
+        }
     }
 </div>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            setInterval(function () {
+                cache_clear()
+            }, 1800000);
+
+            $('#datetimepicker11').datetimepicker({
+                daysOfWeekDisabled: [0, 6],
+                disabledHours: [0, 1, 2, 3, 4, 5, 6, 7, 8, 18, 19, 20, 21, 22, 23, 24]
+            });
+        });
+
+        function cache_clear() {
+            window.location.reload(true);
+            // window.location.reload(); use this if you do not remove cache
+        }
+
+                //function MudarDadosTabela(valorSelect) {
+
+                //    const ano = $(valorSelect).val().toLowerCase().substring(0, 4);
+                //    const mes = $(valorSelect).val().toLowerCase().substring(5, 7)
+                //    const dia = $(valorSelect).val().toLowerCase().substring(8, 10)
+                //    const Procurar = dia + "/" + mes + "/" + ano;
+
+                //    if ((ano != null || ano != undefined) && (mes != null || mes != undefined) && (dia != null || dia != undefined)) {
+                //        $.ajax({
+                //            url: "/Agendamentos/DashBoardAgendamentos",
+                //            method: "POST",
+                //            data: { Procurar: Procurar },
+                //            success: function (result) {
+                //                //location.reload(true);
+                //                //alert(result.message)
+                //            }
+                //        });
+                //    } else {
+                //        alert('Favor seleciona uma data!')
+                //    }
+
+                //};
+
+
+    </script>
+}

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Threading;
 using System.Threading.Tasks;
 using AgendamentoProjeto.Models;
 using Microsoft.AspNetCore.Builder;
@@ -55,7 +57,9 @@ namespace AgendamentoProjeto
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseFileServer();
+        
+        app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseStaticFiles();
@@ -67,5 +71,7 @@ namespace AgendamentoProjeto
                     template: "{controller=Login}/{action=Index}/{id?}");
             });
         }
+
+      
     }
 }
