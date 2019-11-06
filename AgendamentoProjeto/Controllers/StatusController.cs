@@ -55,6 +55,12 @@ namespace AgendamentoProjeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StatusId,NomeStatus")] Status status)
         {
+            var temStatus = _context.Status.Where(s => s.NomeStatus == status.NomeStatus).Select(s => s).ToList();
+            if (temStatus.Count() > 0)
+            {
+                ViewBag.NomeRepetido = true;
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(status);
@@ -91,7 +97,12 @@ namespace AgendamentoProjeto.Controllers
             {
                 return NotFound();
             }
-
+            var temStatus = _context.Status.Where(s => s.NomeStatus == status.NomeStatus).Select(s => s).ToList();
+            if (temStatus.Count() > 0)
+            {
+                ViewBag.NomeRepetido = true;
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -115,28 +126,10 @@ namespace AgendamentoProjeto.Controllers
             return View(status);
         }
 
-        // GET: Status/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var status = await _context.Status
-                .FirstOrDefaultAsync(m => m.StatusId == id);
-            if (status == null)
-            {
-                return NotFound();
-            }
-
-            return View(status);
-        }
-
+    
         // POST: Status/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             var status = await _context.Status.FindAsync(id);
             _context.Status.Remove(status);

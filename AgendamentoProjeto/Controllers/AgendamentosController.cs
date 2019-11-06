@@ -93,14 +93,37 @@ namespace AgendamentoProjeto.Controllers
             return new JsonResult(json);
         }
 
-        //metodo do jonathan se quiser utilizar algo sla
-        public IActionResult DashBoardAgendamentos()
+
+        public async Task<IActionResult> DashBoardAgendamentos()
         {
-            var agendamentosHoje = _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(a => a).Include(a=>a.Professor).Include(a=>a.Disciplina).ToList();
-            ViewBag.agendamentos = agendamentosHoje;
-            
-            return View();
+            await BloquearLaboratorios();
+           
+            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DashBoardAgendamentos(string Procurar)
+        {
+            await BloquearLaboratorios();
+            if (String.IsNullOrEmpty(Procurar))
+            {
+                return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).ToListAsync());
+
+            }
+            string ano = Procurar.ToLower().Substring(0, 4);
+            string mes = Procurar.ToLower().Substring(5, 2);
+            string dia = Procurar.ToLower().Substring(8, 2);
+            string result = dia + "/" + mes + "/" + ano;
+            DateTime dataPost = Convert.ToDateTime(result);
+            if (dataPost < DateTime.Now)
+            {
+                ViewBag.errorData = "Não é possível selecionar datas anteriores à hoje!";
+                return View();
+            }
+          
+            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == dataPost.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).ToListAsync());
+        }
+
 
         public async Task<IActionResult> SalvarSolicitacao([Bind("AgendamentoId,DataAgendamento,DataFimAgendamento,LaboratorioId,DisciplinaId,ProfessorId")] Agendamento agendamento)
         {
@@ -136,8 +159,9 @@ namespace AgendamentoProjeto.Controllers
             return RedirectToAction("MeusAgendamentos");
         }
 
-        public IActionResult MeusAgendamentos()
+        public async Task<IActionResult> MeusAgendamentos()
         {
+            await BloquearLaboratorios();
             var IdLogado = Convert.ToInt32(HttpContext.Session.GetInt32("usuarioIdLogado"));
             var avisos = _context.Aviso.Select(x => x);
             var meusAgendamentos = _context.Agendamento.Where(a => a.UsuarioId == IdLogado).Select(a => a).Include(a => a.Status).Include(a => a.Usuario).Include(a => a.Professor).Include(a=>a.Laboratorio).Include(a=>a.Disciplina).ToList();
@@ -149,8 +173,9 @@ namespace AgendamentoProjeto.Controllers
         // GET: Agendamentos
         public async Task<IActionResult> Index(string error)
         {
+            await BloquearLaboratorios();
 
-            
+
             if (error != null)
             {
                 ViewBag.ErrorDatabase = error;
@@ -169,6 +194,7 @@ namespace AgendamentoProjeto.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string Procurar, bool gambiarra)
         {
+            await BloquearLaboratorios();
             if (!String.IsNullOrEmpty(Procurar))
             {
                 var avisos = _context.Aviso.Select(x => x);
@@ -248,29 +274,59 @@ namespace AgendamentoProjeto.Controllers
 
         private async Task<bool> HorarioValido(Agendamento agendamento)
         {
-            if ( !await InicioValido(agendamento))
+            //if ( !await InicioValido(agendamento))
+            //{
+            //    ViewBag.erro = "O horário de inicio do agendamento está em conflito com outro agendamento" ;
+
+            //    return false;
+            //}
+            //if (!await FinalValido(agendamento))
+            //{
+            //    ViewBag.erro = "O horário de fim do agendamento está em conflito com outro agendamento";
+
+            //    return false;
+            //}
+
+            
+
+            if (!await InicioIgual(agendamento) || !await FinalIgual(agendamento))
             {
-                ViewBag.erro = "O horário de inicio do agendamento está em conflito com outro agendamento" ;
+                ViewBag.erro = "O horário de Fim ou Inicio do agendamento estão em conflito com outro agendamento";
 
                 return false;
-            }
-            if (!await FinalValido(agendamento))
-            {
-                ViewBag.erro = "O horário de fim do agendamento está em conflito com outro agendamento";
 
-                return false;
             }
+            else
+            {
+                if (!await AgendamentoEntre(agendamento)   )
+                {
+                    ViewBag.erro = "O seu agendamento está ocorrendo dentro de outro agendamento ";
+
+                    return false;
+                }
+                else
+                {
+                    if (!await AgendamentoAntes(agendamento) || !await AgendamentoDepois(agendamento))
+                    {
+                        ViewBag.erro = "O seu agendamento está Iniciando ou Terminando no meio de outro agendamento";
+
+                        return false;
+                    }
+                }
+            }
+
+           
 
 
 
             return true;
         }
 
-        
 
-        private async Task<bool> InicioValido(Agendamento agendamento)
+        //Não permite que as datas de inicio sejam iguais as de outros agendamentos no mesmo lab
+        private async Task<bool> InicioIgual(Agendamento agendamento)
         {
-             var  HoraInicio = await _context.Agendamento.Where(a => a.DataAgendamento < agendamento.DataAgendamento && a.LaboratorioId == agendamento.LaboratorioId).ToListAsync();
+             var  HoraInicio = await _context.Agendamento.Where(a => a.DataAgendamento == agendamento.DataAgendamento && (a.LaboratorioId == agendamento.LaboratorioId) ).ToListAsync();
 
             if ( !HoraInicio.Any())
             {
@@ -280,9 +336,10 @@ namespace AgendamentoProjeto.Controllers
              return false;
         }
 
-        private async Task<bool> FinalValido(Agendamento agendamento)
+        // Não permite que as datas de fim sejam iguais as de outros agendamentos no mesmo lab
+        private async Task<bool> FinalIgual(Agendamento agendamento)
         {
-            var HoraFinal = await _context.Agendamento.Where(a => a.DataFimAgendamento > agendamento.DataFimAgendamento && a.LaboratorioId == agendamento.LaboratorioId).ToListAsync();
+            var HoraFinal = await _context.Agendamento.Where(a => a.DataFimAgendamento == agendamento.DataFimAgendamento && (a.LaboratorioId == agendamento.LaboratorioId) ).ToListAsync();
 
             if ( !HoraFinal.Any())
             {
@@ -291,6 +348,61 @@ namespace AgendamentoProjeto.Controllers
 
              return false;
         }
+
+
+
+        //Não permite que a data de inicio seja entre o Inicio e o Fim de outro agendamento && Não permite que a data de Fim seja entre o Inicio e o Fim de outro agendamento
+        private async Task<bool> AgendamentoEntre(Agendamento agendamento)
+            {
+
+            var InicioEntre = await _context.Agendamento.Where(a => a.DataFimAgendamento > agendamento.DataAgendamento  && a.DataAgendamento < agendamento.DataFimAgendamento && (a.LaboratorioId == agendamento.LaboratorioId && a.AgendamentoId != agendamento.AgendamentoId)).ToListAsync();
+
+            if (!InicioEntre.Any())
+            {
+                return true;
+            }
+
+            return false;
+
+            }
+
+        
+        
+
+
+
+
+
+        //Não permite que um agendamento que Inicie antes de outro, termine durante ou depois de outro agendamento
+        private async Task<bool> AgendamentoAntes(Agendamento agendamento)
+        {
+
+            var AgendamentoIniciandoFora = await _context.Agendamento.Where(a => a.DataAgendamento > agendamento.DataAgendamento  && a.DataFimAgendamento < agendamento.DataFimAgendamento && (a.LaboratorioId == agendamento.LaboratorioId) ).ToListAsync();
+
+            if (!AgendamentoIniciandoFora.Any())
+            {
+                return true;
+
+            }
+            return false;
+        }
+
+
+        //Nâo permite que um agendamento que Termine depois de outro, Inicie durante ou antes de outro agendamento
+        private async Task<bool> AgendamentoDepois(Agendamento agendamento)
+        {
+
+            var AgendamentoTerminandoDepois = await _context.Agendamento.Where( a => a.DataFimAgendamento < agendamento.DataFimAgendamento && a.DataAgendamento > agendamento.DataAgendamento && (a.LaboratorioId == agendamento.LaboratorioId) ).ToListAsync();
+
+            if (!AgendamentoTerminandoDepois.Any())
+            {
+                return true;
+
+            }
+
+            return false;
+        }
+
 
         // GET: Agendamentos/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -399,6 +511,23 @@ namespace AgendamentoProjeto.Controllers
             _context.Agendamento.Remove(agendamento);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<bool> BloquearLaboratorios()
+        {
+            var labsDisponivel = _context.Agendamento.Where(a => a.DataFimAgendamento < DateTime.Now && a.StatusId == 1).ToList();
+            if (labsDisponivel.Count > 0)
+            {
+                foreach (var ag in labsDisponivel)
+                {
+                    ag.StatusId = 4;
+                    _context.Update(ag);
+                    await _context.SaveChangesAsync();
+                }
+                return true;
+            }
+
+            return true;
         }
 
         private bool AgendamentoExists(int id)
