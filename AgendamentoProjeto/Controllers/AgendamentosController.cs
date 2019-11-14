@@ -121,7 +121,7 @@ namespace AgendamentoProjeto.Controllers
                 return View();
             }
           
-            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == dataPost.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).ToListAsync());
+            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == dataPost.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).ToListAsync());
         }
 
 
@@ -164,7 +164,7 @@ namespace AgendamentoProjeto.Controllers
             await BloquearLaboratorios();
             var IdLogado = Convert.ToInt32(HttpContext.Session.GetInt32("usuarioIdLogado"));
             var avisos = _context.Aviso.Select(x => x);
-            var meusAgendamentos = _context.Agendamento.Where(a => a.UsuarioId == IdLogado).Select(a => a).Include(a => a.Status).Include(a => a.Usuario).Include(a => a.Professor).Include(a=>a.Laboratorio).Include(a=>a.Disciplina).ToList();
+            var meusAgendamentos = _context.Agendamento.Where(a => a.UsuarioId == IdLogado).Select(a => a).Include(a => a.Status).Include(a => a.Usuario).Include(a => a.Professor).Include(a=>a.Laboratorio).Include(a=>a.Disciplina).ToList().OrderByDescending(a => a.DataAgendamento);
             ViewBag.agendamentos = meusAgendamentos;
             ViewBag.Avisos = avisos;
             return View();
@@ -182,7 +182,7 @@ namespace AgendamentoProjeto.Controllers
             }
            
             List<string> listaDeAvisos = new List<string>();
-            var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status);
+            var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status).OrderByDescending(a=>a.DataAgendamento);
             var avisos = _context.Aviso.Select(x => x);
             ViewBag.AgendamentosPendentes = _context.Agendamento.Where(a => a.StatusId == 2).Select(a=>a);
             ViewBag.Contagem = _context.Agendamento.Where(a => a.StatusId == 2).Count();
@@ -200,7 +200,7 @@ namespace AgendamentoProjeto.Controllers
                 var avisos = _context.Aviso.Select(x => x);
                 ViewBag.Avisos = avisos;
                 DateTime DataFinal = Convert.ToDateTime(Procurar);
-                var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status);
+                var contexto = _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a => a.Status).OrderByDescending(a => a.DataAgendamento);
                 return View(await contexto.Where(x => x.DataAgendamento.ToShortDateString().Contains(DataFinal.ToShortDateString())).ToListAsync());
 
             }
@@ -208,7 +208,7 @@ namespace AgendamentoProjeto.Controllers
             ViewBag.cargo = cargo;
             var avisos1 = _context.Aviso.Select(x => x);
             ViewBag.Avisos = avisos1;
-            return View(await _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a=>a.Status).ToListAsync());
+            return View(await _context.Agendamento.Include(a => a.Disciplina).Include(a => a.Laboratorio).Include(a => a.Professor).Include(a => a.Usuario).Include(a=>a.Status).OrderByDescending(a => a.DataAgendamento).ToListAsync());
         }
 
 

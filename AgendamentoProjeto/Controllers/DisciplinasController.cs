@@ -147,7 +147,7 @@ namespace AgendamentoProjeto.Controllers
         {
             var disciplina = await _context.Disciplina.FindAsync(id);
             _context.Disciplina.Remove(disciplina);
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

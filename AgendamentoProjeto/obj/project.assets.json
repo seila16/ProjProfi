@@ -13479,11 +13479,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\J130075\\Documents\\AgendamentoTodososConflitosResolvidos\\AgendamentoProjeto.csproj",
+      "projectUniqueName": "C:\\Users\\J130075\\Desktop\\GitMassa\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
       "projectName": "AgendamentoProjeto",
-      "projectPath": "C:\\Users\\J130075\\Documents\\AgendamentoTodososConflitosResolvidos\\AgendamentoProjeto.csproj",
+      "projectPath": "C:\\Users\\J130075\\Desktop\\GitMassa\\ProjProfi\\AgendamentoProjeto\\AgendamentoProjeto.csproj",
       "packagesPath": "C:\\Users\\J130075\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\J130075\\Documents\\AgendamentoTodososConflitosResolvidos\\obj\\",
+      "outputPath": "C:\\Users\\J130075\\Desktop\\GitMassa\\ProjProfi\\AgendamentoProjeto\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
