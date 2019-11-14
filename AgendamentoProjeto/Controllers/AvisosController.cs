@@ -22,8 +22,24 @@ namespace AgendamentoProjeto.Controllers
         // GET: Avisos
         public async Task<IActionResult> Index()
         {
+
             var agendamentos = _context.Agendamento.Select(a => a).Include(a=>a.Professor).Include(a=>a.Usuario).ToList();
             ViewBag.Agendamentos = agendamentos;
+            var avisosParaApagar = _context.Aviso.Select(a => a).ToList();
+            foreach(var xom in avisosParaApagar)
+            {
+             foreach(var xim in agendamentos)
+                {
+                    if (xim.DataFimAgendamento.Date < DateTime.Now.Date)
+                    {
+                        if (xim.AgendamentoId == xom.AgendamentoId)
+                        {
+                            _context.Aviso.Remove(xom);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }
             return View(await _context.Aviso.ToListAsync());
         }
 

@@ -65,11 +65,11 @@ namespace AgendamentoProjeto.Controllers
             {
                 ViewBag.UsuariosPendentes = _context.Usuarios.Where(u => u.StatusId == 2).ToList();
                 ViewBag.Contagem = _context.Usuarios.Where(u => u.StatusId == 2).Count();
-                return View(await _context.Usuarios.Where(x => x.NomeUsuario.ToUpper().Contains(Procurar.ToUpper())).ToListAsync());
+                return View(await _context.Usuarios.Where(x => x.NomeUsuario.ToUpper().Contains(Procurar.ToUpper())).Include(x=>x.Cargo).Include(x=>x.Curso).ToListAsync());
             }
             ViewBag.UsuariosPendentes = _context.Usuarios.Where(u => u.StatusId == 2).ToList();
             ViewBag.Contagem = _context.Usuarios.Where(u => u.StatusId == 2).Count();
-            return View(await _context.Usuarios.ToListAsync());
+            return View(await _context.Usuarios.Include(u => u.Cargo).Include(u => u.Curso).ToListAsync());
         }
 
         // GET: Usuarios/Details/5
