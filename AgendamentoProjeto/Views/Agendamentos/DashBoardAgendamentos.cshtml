@@ -63,6 +63,13 @@
                         <li class="list-inline-item"><i class="fa fa-clock" aria-hidden="true"></i> @ag.DataAgendamento.ToShortTimeString()</li>
                         <li class="list-inline-item"><i class="fa fa-clock" aria-hidden="true"></i> @ag.DataFimAgendamento.ToShortTimeString()</li>
                         <li class="list-inline-item"><i class="fa fa-desktop" aria-hidden="true"></i> @ag.Laboratorio.NomeLaboratorio</li>
+                        @foreach (var avisosDoAgendamento in ViewBag.Avisos)
+                        {
+                            if (avisosDoAgendamento.AgendamentoId == ag.AgendamentoId && avisosDoAgendamento.Mensagem != null)
+                            {
+                                <li class="list-inline-item"><i class="fa fa-microphone" aria-hidden="true"></i> @avisosDoAgendamento.Mensagem</li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
