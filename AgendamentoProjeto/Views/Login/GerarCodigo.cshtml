@@ -19,7 +19,7 @@
 
         <form asp-action="ValidarCodigo">
             <div class=" p-4">
-                <input asp-for="Login" name="Login" class="form-control" placeholder="Login" />
+                <input asp-for="Login" name="Login" readonly="readonly" class="form-control" placeholder="Login" />
                 <span asp-validation-for="Login" class="text-danger"></span>
             </div>
             <div class="p-4">

@@ -97,8 +97,8 @@ namespace AgendamentoProjeto.Controllers
         public async Task<IActionResult> DashBoardAgendamentos()
         {
             await BloquearLaboratorios();
-           
-            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).ToListAsync());
+            ViewBag.Avisos = _context.Aviso.Select(a => a);
+            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).Include(a=>a.Avisos).ToListAsync());
         }
 
         [HttpPost]
@@ -107,21 +107,23 @@ namespace AgendamentoProjeto.Controllers
             await BloquearLaboratorios();
             if (String.IsNullOrEmpty(Procurar))
             {
-                return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).ToListAsync());
-
+                ViewBag.Avisos = _context.Aviso.Select(a => a);
+                return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == DateTime.Now.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).Include(a=>a.Avisos).ToListAsync());
+               
             }
             string ano = Procurar.ToLower().Substring(0, 4);
             string mes = Procurar.ToLower().Substring(5, 2);
             string dia = Procurar.ToLower().Substring(8, 2);
             string result = dia + "/" + mes + "/" + ano;
             DateTime dataPost = Convert.ToDateTime(result);
-            if (dataPost < DateTime.Now)
+            if (dataPost < DateTime.Now.Date)
             {
                 ViewBag.errorData = "Não é possível selecionar datas anteriores à hoje!";
+
                 return View();
             }
-          
-            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == dataPost.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).ToListAsync());
+            ViewBag.Avisos = _context.Aviso.Select(a => a);
+            return View(await _context.Agendamento.Where(a => a.DataAgendamento.ToShortDateString() == dataPost.ToShortDateString() && a.StatusId == 1).Select(a => a).Include(a => a.Professor).Include(a => a.Disciplina).Include(a=>a.Laboratorio).Include(a=>a.Avisos).ToListAsync());
         }
 
 
